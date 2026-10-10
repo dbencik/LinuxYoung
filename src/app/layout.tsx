@@ -1,23 +1,35 @@
 import type { Metadata } from "next";
+import { JetBrains_Mono, Outfit } from "next/font/google";
 import "./globals.css";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "LinuxYoung — Linux Basics for Youngsters",
-  description: "Learn Linux step by step — no experience needed",
+  description: "Learn Linux step by step. 20 hands-on lessons for teenagers with a Raspberry Pi. No experience needed.",
+  openGraph: {
+    title: "Linux Basics for Youngsters",
+    description: "20 hands-on Linux lessons for teenagers. Master the terminal one command at a time.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`h-full antialiased ${outfit.variable} ${jetbrainsMono.variable}`}>
+      <body className="min-h-full flex flex-col" style={{ fontFamily: "var(--font-outfit), 'Outfit', system-ui, sans-serif" }}>
+        {children}
+      </body>
     </html>
   );
 }

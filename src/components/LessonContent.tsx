@@ -118,8 +118,18 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
           </h2>
           <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
         </div>
-        <div className="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface)] p-6 text-sm leading-relaxed text-[var(--color-txt-secondary)]">
-          {lesson.explanation}
+        <div className="space-y-4 rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface)] p-6 text-sm leading-relaxed text-[var(--color-txt-secondary)]">
+          {lesson.explanation.split(/(?<=\.)\s+(?=[A-Z])/).reduce<string[]>((paras, sentence) => {
+            const last = paras[paras.length - 1];
+            if (last && last.split(/\s+/).length < 40) {
+              paras[paras.length - 1] = last + " " + sentence;
+            } else {
+              paras.push(sentence);
+            }
+            return paras;
+          }, []).map((para, i) => (
+            <p key={i}>{para}</p>
+          ))}
         </div>
       </section>
 
@@ -181,13 +191,18 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
             </button>
           </div>
 
-          {challengeResult === "correct" && (
-            <div data-testid="challenge-correct" className="mb-3 rounded-lg border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] p-3 font-mono text-xs text-[var(--color-glow-green)]">
+          {challengeResult === "correct" && !challengeCompleted && (
+            <div data-testid="challenge-correct" className="mb-3 rounded-lg border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] p-3 font-mono text-xs text-[var(--color-glow-green)]" role="alert">
               ✓ Correct! +25 XP
             </div>
           )}
-          {challengeResult === "wrong" && (
-            <div data-testid="challenge-wrong" className="mb-3 rounded-lg border border-[var(--color-dim-red)] bg-[var(--color-bg-red)] p-3 font-mono text-xs text-[var(--color-glow-red)]">
+          {challengeResult === "correct" && challengeCompleted && (
+            <div className="mb-3 rounded-lg border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] p-3 font-mono text-xs text-[var(--color-glow-green)]" role="alert">
+              ✓ Correct!
+            </div>
+          )}
+          {challengeResult === "wrong" && !challengeCompleted && (
+            <div data-testid="challenge-wrong" className="mb-3 rounded-lg border border-[var(--color-dim-red)] bg-[var(--color-bg-red)] p-3 font-mono text-xs text-[var(--color-glow-red)]" role="alert">
               ✗ Not quite — try again or check the hint.
             </div>
           )}

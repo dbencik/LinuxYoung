@@ -20,7 +20,12 @@ function getSet(key: string): Set<number> {
 
 function saveSet(key: string, set: Set<number>): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem(key, JSON.stringify([...set]));
+  try {
+    const valid = [...set].filter((n) => Number.isInteger(n) && n >= 1 && n <= 20);
+    localStorage.setItem(key, JSON.stringify(valid));
+  } catch {
+    // QuotaExceededError or blocked storage — silently ignore
+  }
 }
 
 export function completeLesson(id: number): void {
