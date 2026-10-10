@@ -48,7 +48,7 @@ export default function BadgeGrid() {
           <span className="font-mono text-sm font-bold text-[var(--color-glow-amber)]">*</span>
         </div>
         <div>
-          <h3 className="text-sm font-semibold text-[var(--color-txt)]">Badges</h3>
+          <h2 className="text-sm font-semibold text-[var(--color-txt)]">Badges</h2>
           <p className="font-mono text-xs text-[var(--color-txt-muted)]">
             {unlockedBadges.length}/{ALL_BADGE_NAMES.length} unlocked
           </p>

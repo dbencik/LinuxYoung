@@ -24,7 +24,7 @@ export default function ProgressBar() {
             <span className="font-mono text-sm font-bold text-[var(--color-glow-green)]">%</span>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-[var(--color-txt)]">Progress</h3>
+            <h2 className="text-sm font-semibold text-[var(--color-txt)]">Progress</h2>
             <p className="font-mono text-xs text-[var(--color-txt-muted)]">
               {completedCount}/{TOTAL_LESSONS} lessons
             </p>
@@ -37,7 +37,14 @@ export default function ProgressBar() {
       </div>
 
       {/* Bar */}
-      <div className="relative h-2 w-full overflow-hidden rounded-full bg-[var(--color-elevated)]">
+      <div
+        className="relative h-2 w-full overflow-hidden rounded-full bg-[var(--color-elevated)]"
+        role="progressbar"
+        aria-valuenow={percentage}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={`${completedCount} of ${TOTAL_LESSONS} lessons completed`}
+      >
         <div
           className="h-full rounded-full transition-all duration-700 ease-out"
           style={{
