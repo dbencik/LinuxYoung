@@ -1,0 +1,48 @@
+{
+  "id": 13,
+  "slug": "finding-text-with-grep",
+  "title": "Finding Text with Grep",
+  "module": 4,
+  "moduleName": "Finding & Filtering",
+  "difficulty": "Intermediate",
+  "objective": "Learn to search for text inside files using the grep command with basic options.",
+  "explanation": "Imagine you have a long file with hundreds of lines and you need to find every line that mentions a specific word. Reading through it manually would take forever. That is where grep comes in. Grep stands for Global Regular Expression Print — but you do not need to remember that. Just think of grep as your search tool for text inside files. The simplest way to use grep is: grep word filename. This prints every line in the file that contains that word. For example, grep error logfile.txt would show you every line in logfile.txt that contains the word 'error'. By default, grep is case-sensitive. That means searching for 'Error' will not find 'error' or 'ERROR'. If you want to ignore the difference between uppercase and lowercase, use the -i flag: grep -i error logfile.txt. This will find 'error', 'Error', 'ERROR', and any other combination. Another useful flag is -n, which shows the line number next to each match. This is super helpful when you need to know where exactly something appears in a long file. You can type grep -n error logfile.txt and it will show something like '42:error connecting to server', telling you that match is on line 42. You can also combine flags. grep -in error logfile.txt does a case-insensitive search and shows line numbers at the same time. Grep can search through multiple files too. If you type grep hello *.txt, it searches all text files in the current directory. Grep is one of the most used commands in Linux. System administrators use it every day to search through log files, developers use it to find code, and you will use it whenever you need to find something in a file quickly. It is like Ctrl+F in a web browser, but much more powerful.",
+  "commands": [
+    {
+      "command": "grep \"hello\" greeting.txt",
+      "description": "Searches for the word 'hello' inside greeting.txt and prints every line that contains it.",
+      "expectedOutput": "hello world\nsay hello to Linux"
+    },
+    {
+      "command": "grep -i \"hello\" greeting.txt",
+      "description": "Same search, but case-insensitive. Finds 'hello', 'Hello', 'HELLO', and any mix.",
+      "expectedOutput": "hello world\nHello there!\nsay hello to Linux"
+    },
+    {
+      "command": "grep -n \"error\" /var/log/syslog",
+      "description": "Searches for 'error' in the system log and shows the line number for each match.",
+      "expectedOutput": "127:Oct 10 08:15:03 raspberrypi kernel: error reading sector\n2041:Oct 10 09:22:17 raspberrypi systemd: error in service"
+    },
+    {
+      "command": "grep -in \"warning\" /var/log/syslog",
+      "description": "Combines -i (case-insensitive) and -n (line numbers) to find all warnings regardless of capitalization.",
+      "expectedOutput": "85:Oct 10 07:45:12 raspberrypi kernel: WARNING: CPU throttling\n340:Oct 10 08:30:55 raspberrypi systemd: warning: slow startup"
+    },
+    {
+      "command": "grep -c \"error\" /var/log/syslog",
+      "description": "The -c flag counts the number of matching lines instead of showing them.",
+      "expectedOutput": "2"
+    },
+    {
+      "command": "grep \"youngster\" /etc/passwd",
+      "description": "Searches for your username in the system's user database file.",
+      "expectedOutput": "youngster:x:1000:1000::/home/youngster:/bin/bash"
+    }
+  ],
+  "challenge": {
+    "question": "Create a file called animals.txt with a few animal names (one per line), including 'cat' and 'Cat'. Use grep to find all lines containing 'cat' regardless of upper or lowercase. What flags do you need?",
+    "hint": "Use the -i flag to make the search case-insensitive.",
+    "answer": "grep -i \"cat\" animals.txt"
+  },
+  "funFact": "The grep command is so famous that it became a verb among programmers. They say 'I will grep for it' meaning 'I will search for it.' It has been part of Unix since 1973!"
+}

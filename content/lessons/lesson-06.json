@@ -1,0 +1,58 @@
+{
+  "id": 6,
+  "slug": "reading-files",
+  "title": "Reading Files",
+  "module": 2,
+  "moduleName": "Files & Folders",
+  "difficulty": "Beginner",
+  "objective": "Learn to view the contents of files using cat, head, tail, and less.",
+  "explanation": "You have created files and directories. Now it is time to read what is inside them. Linux gives you several commands for viewing file contents, each useful in different situations. The most basic one is cat, short for concatenate. Type cat followed by a file name and it prints the entire file to your screen. It is perfect for short files. But if the file has thousands of lines, cat will flood your terminal with text. That is where head and tail come in. The head command shows you only the first 10 lines of a file. It is like peeking at the beginning of a book. You can change how many lines it shows with the -n flag: head -n 5 story.txt shows just the first 5 lines. The tail command is the opposite — it shows the last 10 lines. This is great for checking the end of log files or seeing the most recent entries. Just like head, you can customize it: tail -n 3 story.txt shows the last 3 lines. For longer files, there is less. The less command opens the file in a scrollable viewer. You can press the up and down arrow keys to scroll, the spacebar to jump one page forward, and the letter q to quit and return to the terminal. Unlike cat, less does not dump everything at once, so it works well for big files. A fun trick: you can combine echo with a redirect to put text into a file. Type echo \"Hello there\" > greeting.txt and it creates a file with that text. The > symbol sends the output of echo into a file instead of printing it on the screen. If you use >> instead, it appends to the end of the file without erasing what was already there. These reading commands are some of the most used tools in Linux. System administrators check log files with tail, programmers peek at code with head, and everyone uses cat for quick file checks.",
+  "commands": [
+    {
+      "command": "echo \"Hello from Linux!\" > greeting.txt",
+      "description": "Create a file with some text inside it using echo and the > redirect.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "cat greeting.txt",
+      "description": "Display the entire contents of the file.",
+      "expectedOutput": "Hello from Linux!"
+    },
+    {
+      "command": "echo -e \"Line 1\\nLine 2\\nLine 3\\nLine 4\\nLine 5\\nLine 6\\nLine 7\\nLine 8\\nLine 9\\nLine 10\\nLine 11\\nLine 12\" > longfile.txt",
+      "description": "Create a file with 12 lines so we can practice head and tail.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "head longfile.txt",
+      "description": "Show the first 10 lines of the file. By default, head shows 10 lines.",
+      "expectedOutput": "Line 1\nLine 2\nLine 3\nLine 4\nLine 5\nLine 6\nLine 7\nLine 8\nLine 9\nLine 10"
+    },
+    {
+      "command": "head -n 3 longfile.txt",
+      "description": "Show only the first 3 lines.",
+      "expectedOutput": "Line 1\nLine 2\nLine 3"
+    },
+    {
+      "command": "tail longfile.txt",
+      "description": "Show the last 10 lines of the file.",
+      "expectedOutput": "Line 3\nLine 4\nLine 5\nLine 6\nLine 7\nLine 8\nLine 9\nLine 10\nLine 11\nLine 12"
+    },
+    {
+      "command": "tail -n 2 longfile.txt",
+      "description": "Show only the last 2 lines. Great for checking the end of a file.",
+      "expectedOutput": "Line 11\nLine 12"
+    },
+    {
+      "command": "echo \"One more line\" >> greeting.txt && cat greeting.txt",
+      "description": "Append text to an existing file with >> and then display it.",
+      "expectedOutput": "Hello from Linux!\nOne more line"
+    }
+  ],
+  "challenge": {
+    "question": "Create a file called colors.txt that contains three lines: red, green, blue. Then use head -n 1 to show only the first color. What commands do you use?",
+    "hint": "Use echo -e with \\n to create multiple lines in one command, then use head -n 1.",
+    "answer": "echo -e \"red\\ngreen\\nblue\" > colors.txt && head -n 1 colors.txt"
+  },
+  "funFact": "The command less is an improved version of an older command called more. Programmers named it less because less is more — a joke about the fact that less can do more than more can!"
+}

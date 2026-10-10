@@ -1,0 +1,53 @@
+{
+  "id": 16,
+  "slug": "redirecting-output",
+  "title": "Redirecting Output",
+  "module": 4,
+  "moduleName": "Finding & Filtering",
+  "difficulty": "Intermediate",
+  "objective": "Learn to redirect command output to files, append to files, and handle error output using redirection operators.",
+  "explanation": "In the last lesson you learned about pipes, which send output from one command to another. But what if you want to save the output to a file instead? That is where redirection comes in. The greater-than sign > redirects output to a file. For example, echo Hello > greeting.txt creates a file called greeting.txt containing the word Hello. If the file already exists, it gets overwritten — the old content is gone. This is important to remember so you do not accidentally lose data. If you want to add to a file instead of replacing it, use double greater-than >>. echo Goodbye >> greeting.txt adds 'Goodbye' to the end of greeting.txt without erasing what was already there. This is called appending. You will use this a lot for log files. The less-than sign < redirects input. Instead of typing data yourself, you can feed a file to a command. For example, wc -l < greeting.txt counts the lines in greeting.txt. It works like cat greeting.txt | wc -l but is slightly more efficient. Now here is something clever: Linux separates regular output and error messages into two streams. Regular output is called stdout (standard output), and error messages are called stderr (standard error). Sometimes you want to save errors to a separate file. You do this with 2>, where 2 represents stderr. For example, find / -name secret.txt 2> errors.txt runs the find command and saves any permission errors to errors.txt while still showing the results on screen. Sometimes you do not care about errors at all. Linux has a special place called /dev/null — it is a black hole that swallows anything you send to it. Writing find / -name file.txt 2> /dev/null throws away all error messages and shows only the actual results. System administrators love /dev/null for keeping output clean.",
+  "commands": [
+    {
+      "command": "echo \"Hello Linux\" > hello.txt",
+      "description": "Creates a new file called hello.txt containing 'Hello Linux'. If the file exists, it gets overwritten.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "cat hello.txt",
+      "description": "Verify the file was created with the correct content.",
+      "expectedOutput": "Hello Linux"
+    },
+    {
+      "command": "echo \"Welcome back\" >> hello.txt",
+      "description": "Appends 'Welcome back' to the end of hello.txt without erasing the first line.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "cat hello.txt",
+      "description": "Now the file has two lines — the original plus the appended one.",
+      "expectedOutput": "Hello Linux\nWelcome back"
+    },
+    {
+      "command": "ls /home/youngster > filelist.txt",
+      "description": "Saves the directory listing to a file instead of showing it on screen. Useful for keeping records.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "find / -name '*.conf' 2> /dev/null | head -5",
+      "description": "Searches the entire system for .conf files. The 2> /dev/null hides all permission errors, keeping output clean.",
+      "expectedOutput": "/etc/adduser.conf\n/etc/debconf.conf\n/etc/gai.conf\n/etc/nsswitch.conf\n/etc/resolv.conf"
+    },
+    {
+      "command": "wc -l < /etc/passwd",
+      "description": "Uses input redirection to count lines in the password file. The < feeds the file to wc.",
+      "expectedOutput": "32"
+    }
+  ],
+  "challenge": {
+    "question": "Save the output of 'date' to a file called timestamp.txt, then append the output of 'whoami' to the same file. Use two separate commands.",
+    "hint": "First use > to create the file with date output, then >> to append whoami output.",
+    "answer": "date > timestamp.txt && whoami >> timestamp.txt"
+  },
+  "funFact": "/dev/null is sometimes called the 'bit bucket' or the 'black hole of Linux.' There is an old joke: 'I redirected my homework to /dev/null. The dog ate it.'"
+}

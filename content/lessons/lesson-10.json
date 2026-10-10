@@ -1,0 +1,53 @@
+{
+  "id": 10,
+  "slug": "understanding-file-permissions",
+  "title": "Understanding File Permissions",
+  "module": 3,
+  "moduleName": "Users & Permissions",
+  "difficulty": "Beginner",
+  "objective": "Learn to read Linux file permissions, understand the rwx system, and know the difference between owner, group, and other.",
+  "explanation": "Every file and directory in Linux has permissions that control who can do what with it. This is one of the reasons Linux is so secure. Even if someone gets access to the system, they can only touch files they have permission to use. When you run ls -l, the first column shows a string like -rw-r--r-- or drwxr-xr-x. This might look like random letters, but it is actually a code that tells you exactly who can read, write, and execute the file. Let us break it down. The first character tells you the type: a dash - means it is a regular file, and the letter d means it is a directory. The next nine characters are three groups of three, representing permissions for three categories of users. The first group of three is for the owner — the user who created the file. The second group is for the group — other users who belong to the same group. The third group is for other — everyone else on the system. Each group of three can contain r (read), w (write), and x (execute), or a dash if that permission is not granted. The letter r means you can read or view the file. The letter w means you can write or modify the file. The letter x means you can execute the file as a program, or in the case of directories, enter the directory with cd. So -rw-r--r-- means: it is a regular file, the owner can read and write it, the group can only read it, and everyone else can only read it. And drwxr-xr-x means: it is a directory, the owner can read, write, and enter it, the group can read and enter it, and everyone else can read and enter it. Understanding permissions helps you answer questions like: Why can I not edit this file? Why can I not run this program? Why can I not enter this folder? The answer is almost always about permissions. In future lessons, you will learn how to change permissions with the chmod command.",
+  "commands": [
+    {
+      "command": "ls -l",
+      "description": "List files with permissions displayed. Focus on the first column.",
+      "expectedOutput": "total 8\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Documents\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Downloads\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Music\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Pictures\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Videos\n-rw-r--r-- 1 youngster youngster   14 Oct 10 10:00 hello.txt"
+    },
+    {
+      "command": "touch secret.txt && ls -l secret.txt",
+      "description": "Create a file and check its default permissions.",
+      "expectedOutput": "-rw-r--r-- 1 youngster youngster 0 Oct 10 10:15 secret.txt"
+    },
+    {
+      "command": "mkdir shared && ls -ld shared",
+      "description": "Create a directory and check its permissions. Note the d at the start and the x flags.",
+      "expectedOutput": "drwxr-xr-x 2 youngster youngster 4096 Oct 10 10:15 shared"
+    },
+    {
+      "command": "echo '#!/bin/bash' > myscript.sh && ls -l myscript.sh",
+      "description": "Create a script file. Notice it has no x (execute) permission by default.",
+      "expectedOutput": "-rw-r--r-- 1 youngster youngster 12 Oct 10 10:15 myscript.sh"
+    },
+    {
+      "command": "ls -l /etc/passwd",
+      "description": "Check permissions on a system file. Everyone can read it, but only root can write.",
+      "expectedOutput": "-rw-r--r-- 1 root root 1832 Oct 10 10:00 /etc/passwd"
+    },
+    {
+      "command": "ls -l /etc/shadow",
+      "description": "Check a restricted file. The shadow file stores passwords — very limited access.",
+      "expectedOutput": "-rw-r----- 1 root shadow 1024 Oct 10 10:00 /etc/shadow"
+    },
+    {
+      "command": "stat hello.txt",
+      "description": "The stat command shows detailed file information including permissions in multiple formats.",
+      "expectedOutput": "  File: hello.txt\n  Size: 14        \tBlocks: 8          IO Block: 4096   regular file\nDevice: b302h/45826d\tInode: 524291      Links: 1\nAccess: (0644/-rw-r--r--)  Uid: ( 1000/youngster)   Gid: ( 1000/youngster)\nAccess: 2026-10-10 10:00:00.000000000 +0100\nModify: 2026-10-10 10:00:00.000000000 +0100\nChange: 2026-10-10 10:00:00.000000000 +0100\n Birth: 2026-10-10 10:00:00.000000000 +0100"
+    }
+  ],
+  "challenge": {
+    "question": "Look at this permission string: -rwxr-x---. Who is the owner, what can the group do, and can 'other' users access this file at all?",
+    "hint": "Break it into parts: the first character is the type, then three groups of three characters for owner, group, and other.",
+    "answer": "The owner can read write and execute. The group can read and execute but not write. Other users have no permissions at all."
+  },
+  "funFact": "The number 0644 you see in the stat output is the octal (base-8) representation of permissions. Each digit represents one group: 6 means read+write (4+2), 4 means read only. Linux old-timers can read these numbers at a glance like a secret code!"
+}

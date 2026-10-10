@@ -1,0 +1,53 @@
+{
+  "id": 4,
+  "slug": "the-home-directory",
+  "title": "The Home Directory",
+  "module": 1,
+  "moduleName": "First Steps",
+  "difficulty": "Beginner",
+  "objective": "Understand your home directory, the difference between absolute and relative paths, and shortcuts to navigate quickly.",
+  "explanation": "Every user on a Linux system has a home directory. It is your personal space where you store your files, settings, and projects. For the user youngster, the home directory is /home/youngster. Linux gives you a handy shortcut for it: the tilde character ~. Whenever you see ~ in a path, it means your home directory. So ~/Documents is the same as /home/youngster/Documents. Now let us talk about two types of paths. An absolute path starts from the root of the filesystem with a forward slash /. It tells you the complete location of a file or folder, like a full street address: /home/youngster/Documents/report.txt. No matter where you are in the filesystem, an absolute path always points to the same place. A relative path starts from wherever you currently are. If you are in /home/youngster and you type cd Documents, that is a relative path — it means the Documents folder inside your current location. If you were somewhere else, like /tmp, typing cd Documents would look for a Documents folder inside /tmp instead. Think of it this way: an absolute path is like GPS coordinates — always exact. A relative path is like saying turn left — it depends on where you are standing. The command cd ~ takes you home from anywhere. You can also just type cd with nothing after it, and it does the same thing. The command cd / takes you to the root of the entire filesystem — the very top. From there, you can see all the main system directories like home, etc, var, and usr. Understanding paths is essential because every command you run involves paths. When you copy a file, delete a file, or run a program, you are always telling Linux exactly where to find it.",
+  "commands": [
+    {
+      "command": "echo ~",
+      "description": "Print the path that ~ represents. It should show your home directory.",
+      "expectedOutput": "/home/youngster"
+    },
+    {
+      "command": "cd / && pwd",
+      "description": "Go to the root of the filesystem and confirm your location.",
+      "expectedOutput": "/"
+    },
+    {
+      "command": "ls /",
+      "description": "List the top-level directories of the entire Linux filesystem.",
+      "expectedOutput": "bin  boot  dev  etc  home  lib  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var"
+    },
+    {
+      "command": "cd ~ && pwd",
+      "description": "Jump back to your home directory using ~ and verify.",
+      "expectedOutput": "/home/youngster"
+    },
+    {
+      "command": "cd /home/youngster/Documents && pwd",
+      "description": "Navigate using an absolute path. This works from anywhere.",
+      "expectedOutput": "/home/youngster/Documents"
+    },
+    {
+      "command": "cd ~/Music && pwd",
+      "description": "Use ~ as a shortcut in an absolute path to reach your Music folder.",
+      "expectedOutput": "/home/youngster/Music"
+    },
+    {
+      "command": "cd && pwd",
+      "description": "Typing cd with no arguments takes you straight home.",
+      "expectedOutput": "/home/youngster"
+    }
+  ],
+  "challenge": {
+    "question": "From anywhere on the system, navigate to your home directory using three different methods. What are the three commands?",
+    "hint": "You can use cd alone, cd ~, or cd with the full absolute path to your home.",
+    "answer": "cd && cd ~ && cd /home/youngster"
+  },
+  "funFact": "The tilde ~ was chosen as the home shortcut because on old Unix keyboards, the ~ key was right next to the Home key. It stuck around and became one of the most used shortcuts in Linux!"
+}

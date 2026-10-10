@@ -1,0 +1,48 @@
+{
+  "id": 2,
+  "slug": "navigating-the-filesystem",
+  "title": "Where Am I? Navigating the Filesystem",
+  "module": 1,
+  "moduleName": "First Steps",
+  "difficulty": "Beginner",
+  "objective": "Learn to find your current location and move between folders using pwd, ls, and cd.",
+  "explanation": "Imagine your computer as a giant filing cabinet. Everything is organized in folders, and folders can contain other folders. In Linux, we call folders directories. When you open the terminal, you start in your home directory. Think of it as your personal desk — all your stuff is here. But how do you know where you are? That is what the pwd command does. It stands for print working directory, and it shows you the full path to your current location. The path looks like /home/youngster. The forward slashes separate directory names, like breadcrumbs showing you the trail from the very top of the filesystem (called the root, written as just /) all the way down to where you are. Next, you want to see what is in your current directory. The ls command lists everything in the current folder. It is short for list. You will see file names and folder names. On most systems, folders appear in a different color than files. To move into a folder, use cd followed by the folder name. It stands for change directory. To go back up one level, use cd followed by two dots: cd .. (the two dots always mean the parent directory). To go all the way back to your home directory from anywhere, just type cd with nothing after it. These three commands — pwd, ls, and cd — are the foundation of everything you do in Linux. You will use them hundreds of times. They are like walking, looking around, and opening doors in the Linux world.",
+  "commands": [
+    {
+      "command": "pwd",
+      "description": "Print your current location. You should see /home/youngster.",
+      "expectedOutput": "/home/youngster"
+    },
+    {
+      "command": "ls",
+      "description": "List everything in your current directory.",
+      "expectedOutput": "Documents  Downloads  Music  Pictures  Videos  hello.txt"
+    },
+    {
+      "command": "cd Documents",
+      "description": "Move into the Documents folder.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "pwd",
+      "description": "Check your location again. You should now be inside Documents.",
+      "expectedOutput": "/home/youngster/Documents"
+    },
+    {
+      "command": "cd ..",
+      "description": "Go back up to the parent directory (your home folder).",
+      "expectedOutput": ""
+    },
+    {
+      "command": "ls -l",
+      "description": "List files with details: permissions, owner, size, and modification date.",
+      "expectedOutput": "total 4\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Documents\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Downloads\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Music\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Pictures\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Videos\n-rw-r--r-- 1 youngster youngster   14 Oct 10 10:00 hello.txt"
+    }
+  ],
+  "challenge": {
+    "question": "Navigate into the Pictures folder, check where you are with pwd, then go back home. What three commands did you use?",
+    "hint": "Use cd to enter, pwd to check, and cd .. to go back.",
+    "answer": "cd Pictures && pwd && cd .."
+  },
+  "funFact": "The root directory / is the very top of the Linux filesystem. Everything — every file, every device, even your USB drives — lives somewhere under /. There is no C: or D: drive like in Windows!"
+}

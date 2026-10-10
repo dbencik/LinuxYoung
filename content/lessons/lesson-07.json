@@ -1,0 +1,58 @@
+{
+  "id": 7,
+  "slug": "copying-and-moving",
+  "title": "Copying and Moving",
+  "module": 2,
+  "moduleName": "Files & Folders",
+  "difficulty": "Beginner",
+  "objective": "Learn to copy files with cp, move files with mv, and rename files and directories.",
+  "explanation": "Once you have files and folders, you will often need to copy them, move them to different locations, or rename them. Linux uses two commands for this: cp for copying and mv for moving. The cp command makes a copy of a file. Type cp original.txt backup.txt and Linux creates a new file called backup.txt with the same contents as original.txt. The original stays exactly where it was — now you have two copies. You can also copy a file into a directory: cp notes.txt Documents/ puts a copy of notes.txt inside the Documents folder. To copy an entire directory and everything inside it, you need the -r flag (short for recursive): cp -r projects projects-backup. Without -r, Linux refuses to copy a directory because it does not know whether you want to copy just the folder or all its contents too. The mv command moves a file from one place to another. Type mv notes.txt Documents/ and the file disappears from your current directory and appears inside Documents. Unlike cp, the original is gone — it has been moved, not duplicated. Here is the clever part: mv is also how you rename files in Linux. There is no separate rename command. Type mv oldname.txt newname.txt and the file is renamed. It works the same way for directories: mv old-folder new-folder renames the directory. Think of it this way: moving a file to the same directory but with a different name is the same as renaming it. When you use cp or mv with a destination that already exists, be careful. By default, Linux will overwrite the existing file without asking. To be safe, add the -i flag (interactive): cp -i source.txt dest.txt will ask you for confirmation before overwriting. This is a good habit to develop, especially when you are learning.",
+  "commands": [
+    {
+      "command": "echo \"Important data\" > original.txt && cp original.txt backup.txt",
+      "description": "Create a file and make a copy of it.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "ls -l original.txt backup.txt",
+      "description": "Verify both files exist and have the same size.",
+      "expectedOutput": "-rw-r--r-- 1 youngster youngster 15 Oct 10 10:10 backup.txt\n-rw-r--r-- 1 youngster youngster 15 Oct 10 10:10 original.txt"
+    },
+    {
+      "command": "cp original.txt Documents/",
+      "description": "Copy the file into the Documents directory.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "ls Documents/",
+      "description": "Verify the copy landed in Documents.",
+      "expectedOutput": "original.txt"
+    },
+    {
+      "command": "mv backup.txt archive.txt",
+      "description": "Rename backup.txt to archive.txt using mv.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "ls original.txt archive.txt",
+      "description": "Confirm the rename: backup.txt is gone, archive.txt is here.",
+      "expectedOutput": "archive.txt  original.txt"
+    },
+    {
+      "command": "mv archive.txt Documents/",
+      "description": "Move archive.txt into the Documents folder. It disappears from the current directory.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "ls Documents/",
+      "description": "Verify both files are now in Documents.",
+      "expectedOutput": "archive.txt  original.txt"
+    }
+  ],
+  "challenge": {
+    "question": "Create a file called draft.txt, copy it to final.txt, then move final.txt into a folder called submissions (create the folder first). List the contents of submissions to verify.",
+    "hint": "Use touch or echo to create the file, cp to copy, mkdir to create the folder, mv to move, and ls to verify.",
+    "answer": "touch draft.txt && cp draft.txt final.txt && mkdir submissions && mv final.txt submissions/ && ls submissions"
+  },
+  "funFact": "Linux has no recycle bin on the command line. When you move a file to a new name, the old name is gone instantly. And as you will learn in the next lesson, deleting files is permanent too — so always double-check your commands!"
+}

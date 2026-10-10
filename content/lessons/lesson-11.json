@@ -1,0 +1,53 @@
+{
+  "id": 11,
+  "slug": "changing-permissions",
+  "title": "Changing Permissions",
+  "module": 3,
+  "moduleName": "Users & Permissions",
+  "difficulty": "Intermediate",
+  "objective": "Learn how to change file and directory permissions using chmod in both numeric and symbolic modes.",
+  "explanation": "In the previous lesson, you learned how to read permissions. Now it is time to change them. The command for this is chmod, which stands for change mode. There are two ways to use chmod: numeric mode and symbolic mode. Numeric mode uses three digits, one for the owner, one for the group, and one for everyone else. Each digit is a number from 0 to 7 that represents a combination of read (4), write (2), and execute (1). You add these numbers together. For example, 7 means read + write + execute (4+2+1). 5 means read + execute (4+1). 4 means read only. So when you see chmod 755, it means the owner gets full access (7), the group can read and execute (5), and everyone else can also read and execute (5). This is very common for scripts and programs. Another common permission is 644, which means the owner can read and write, but everyone else can only read. This is typical for regular files like documents. Symbolic mode uses letters instead of numbers. You use u for user (owner), g for group, o for others, and a for all. Then you use + to add a permission, - to remove it, or = to set it exactly. The permission letters are r for read, w for write, and x for execute. For example, chmod u+x myfile adds execute permission for the owner. chmod go-w myfile removes write permission from the group and others. Symbolic mode is easier to remember when you want to change just one thing. Numeric mode is faster when you want to set everything at once. Both are useful, and experienced Linux users switch between them depending on the situation. Remember, changing permissions on system files can break things, so always be careful and use sudo only when necessary.",
+  "commands": [
+    {
+      "command": "chmod 755 myscript.sh",
+      "description": "Sets the file to rwx for owner, and r-x for group and others. This is the standard permission for executable scripts.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "ls -l myscript.sh",
+      "description": "Check the permissions after changing them. You should see rwxr-xr-x.",
+      "expectedOutput": "-rwxr-xr-x 1 youngster youngster 45 Oct 10 14:30 myscript.sh"
+    },
+    {
+      "command": "chmod 644 notes.txt",
+      "description": "Sets read-write for owner, read-only for group and others. This is standard for regular files.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "ls -l notes.txt",
+      "description": "Verify the new permissions. You should see rw-r--r--.",
+      "expectedOutput": "-rw-r--r-- 1 youngster youngster 128 Oct 10 14:30 notes.txt"
+    },
+    {
+      "command": "chmod u+x hello.sh",
+      "description": "Adds execute permission for the owner only, using symbolic mode.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "chmod go-w shared.txt",
+      "description": "Removes write permission from group and others. The owner keeps whatever permissions they already had.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "chmod a+r public.txt",
+      "description": "Adds read permission for everyone — owner, group, and others.",
+      "expectedOutput": ""
+    }
+  ],
+  "challenge": {
+    "question": "Create a file called secret.txt and set its permissions so only the owner can read and write it (no access for group or others). What chmod numeric command would you use?",
+    "hint": "Owner gets read (4) + write (2) = 6. Group and others get nothing (0).",
+    "answer": "chmod 600 secret.txt"
+  },
+  "funFact": "The number 777 gives everyone full access to a file. System administrators call this 'chmod 777' the lazy fix — it works but it is a huge security risk. Never use it on a real server!"
+}

@@ -1,0 +1,48 @@
+{
+  "id": 15,
+  "slug": "pipes-connecting-commands",
+  "title": "Pipes — Connecting Commands",
+  "module": 4,
+  "moduleName": "Finding & Filtering",
+  "difficulty": "Intermediate",
+  "objective": "Understand how to use the pipe operator to chain commands together and build powerful command combinations.",
+  "explanation": "So far, you have been running one command at a time. But the real magic of Linux happens when you connect commands together using pipes. A pipe is the vertical bar character |, and it takes the output of one command and feeds it as input to the next command. Think of it like a water pipe: the water (data) flows from one command to another. For example, ls /etc gives you a huge list of files. If you want to find only the ones with 'network' in the name, you can pipe the output into grep: ls /etc | grep network. The ls command produces the list, and grep filters it to show only matching lines. This is much faster than scrolling through hundreds of entries. You can chain as many commands as you want. For example, cat /var/log/syslog | grep error | head -5 reads the system log, filters for lines containing 'error', and then shows only the first 5 matches. Each pipe passes the output along to the next command. Another common pattern is using wc (word count) with pipes. The command ls /home/youngster | wc -l counts how many files and directories are in your home folder. The wc -l flag counts lines, and since ls puts each item on its own line, you get the total count. Pipes are one of the core ideas in Linux philosophy: each command does one thing well, and you combine them to do complex tasks. Instead of building one giant command that does everything, you build a pipeline of small, simple commands. This makes Linux incredibly flexible. A system administrator might chain five or six commands together to extract exactly the information they need from a log file. As you get more comfortable, you will start thinking in pipes naturally.",
+  "commands": [
+    {
+      "command": "ls /etc | grep net",
+      "description": "Lists all files in /etc and filters to show only names containing 'net'.",
+      "expectedOutput": "network\nnetworks\nnetplan"
+    },
+    {
+      "command": "cat /etc/passwd | head -5",
+      "description": "Reads the password file and shows only the first 5 lines using the head command.",
+      "expectedOutput": "root:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\nbin:x:2:2:bin:/bin:/usr/sbin/nologin\nsys:x:3:3:sys:/dev:/usr/sbin/nologin\nsync:x:4:65534:sync:/bin:/bin/sync"
+    },
+    {
+      "command": "ls /home/youngster | wc -l",
+      "description": "Counts the number of files and directories in your home folder. wc -l counts lines.",
+      "expectedOutput": "7"
+    },
+    {
+      "command": "cat /etc/passwd | grep youngster",
+      "description": "Searches the user database for your username by piping the file contents into grep.",
+      "expectedOutput": "youngster:x:1000:1000::/home/youngster:/bin/bash"
+    },
+    {
+      "command": "history | tail -10",
+      "description": "Shows the last 10 commands you typed. History produces the full list and tail grabs the end.",
+      "expectedOutput": "  91  ls /etc\n  92  cd /home\n  93  pwd\n  94  cat notes.txt\n  95  grep hello file.txt\n  96  find . -name '*.txt'\n  97  chmod 755 script.sh\n  98  sudo apt update\n  99  ls -la\n 100  history | tail -10"
+    },
+    {
+      "command": "ls -la /etc | grep conf | head -5",
+      "description": "A three-command pipeline: list /etc in detail, filter for config-related names, show only the first 5.",
+      "expectedOutput": "-rw-r--r-- 1 root root  2969 Mar 15  2024 adduser.conf\n-rw-r--r-- 1 root root   191 Jan  8  2024 debconf.conf\ndrwxr-xr-x 2 root root  4096 Sep 20 10:45 fonts\n-rw-r--r-- 1 root root  2584 Apr  2  2024 gai.conf\n-rw-r--r-- 1 root root   604 Sep 15  2024 nsswitch.conf"
+    }
+  ],
+  "challenge": {
+    "question": "Count how many lines in /etc/passwd contain the word 'nologin'. Combine cat, grep, and wc -l using pipes.",
+    "hint": "Pipe cat /etc/passwd into grep nologin, then pipe that into wc -l.",
+    "answer": "cat /etc/passwd | grep nologin | wc -l"
+  },
+  "funFact": "The pipe concept was invented by Doug McIlroy at Bell Labs in 1973. He wrote a memo saying programs should be like garden hoses — you screw them together to get things done. This idea became one of the most important principles in computing!"
+}

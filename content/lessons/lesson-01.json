@@ -1,0 +1,38 @@
+{
+  "id": 1,
+  "slug": "what-is-linux",
+  "title": "What is Linux?",
+  "module": 1,
+  "moduleName": "First Steps",
+  "difficulty": "Beginner",
+  "objective": "Understand what Linux is, why it matters, and open your first terminal.",
+  "explanation": "Linux is an operating system — the software that makes your computer work. You probably already use operating systems every day: Windows on a PC, macOS on a Mac, or Android on your phone. Android is actually based on Linux! Linux was created in 1991 by a Finnish student named Linus Torvalds. He shared it for free, and thousands of developers around the world helped improve it. That is why Linux is called open source — anyone can see how it works, change it, and share it. Linux runs on almost everything: supercomputers, web servers, smartphones, smart TVs, and of course the Raspberry Pi you might have in front of you right now. Most of the internet runs on Linux servers. When you visit YouTube, Google, or Netflix, you are using Linux without even knowing it. The best part about Linux is the terminal, also called the command line. Instead of clicking on icons, you type commands. It might look scary at first, but it is actually faster and more powerful than clicking around. Think of it like texting your computer instead of pointing and tapping. In this course, you will learn Linux step by step. No experience needed. No parent needed. Just you, your computer, and this guide. By the end, you will be comfortable using the terminal to navigate files, manage your system, and even set up your own projects. Let us start by opening the terminal. On a Raspberry Pi, look for the black screen icon at the top of your desktop. Click it. You should see a blinking cursor waiting for your first command.",
+  "commands": [
+    {
+      "command": "whoami",
+      "description": "This command tells you which user you are logged in as.",
+      "expectedOutput": "youngster"
+    },
+    {
+      "command": "uname",
+      "description": "This shows the name of the operating system kernel. You should see 'Linux'.",
+      "expectedOutput": "Linux"
+    },
+    {
+      "command": "uname -a",
+      "description": "The -a flag means 'all'. It shows the full system info — kernel name, version, and machine type.",
+      "expectedOutput": "Linux raspberrypi 6.1.0-rpi7-rpi-v8 #1 SMP PREEMPT aarch64 GNU/Linux"
+    },
+    {
+      "command": "echo Hello Linux!",
+      "description": "The echo command prints whatever you type after it. It is like making the computer repeat your words.",
+      "expectedOutput": "Hello Linux!"
+    }
+  ],
+  "challenge": {
+    "question": "Use the echo command to make the terminal say your name. For example: echo Alex",
+    "hint": "Type echo followed by your name, then press Enter.",
+    "answer": "echo"
+  },
+  "funFact": "The Linux penguin mascot is named Tux. Linus Torvalds chose a penguin because he was once bitten by a penguin at a zoo in Australia!"
+}

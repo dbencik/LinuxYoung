@@ -1,0 +1,53 @@
+{
+  "id": 8,
+  "slug": "deleting-files-and-folders",
+  "title": "Deleting Files and Folders",
+  "module": 2,
+  "moduleName": "Files & Folders",
+  "difficulty": "Beginner",
+  "objective": "Learn to delete files with rm and directories with rmdir and rm -r, and understand important safety precautions.",
+  "explanation": "Deleting files in Linux is permanent. There is no recycle bin, no undo button, no way to get a file back once it is gone. That is why this lesson is one of the most important in the entire course. Read carefully and always double-check before you press Enter. The rm command removes files. Type rm myfile.txt and the file is gone forever. You can delete multiple files at once: rm file1.txt file2.txt file3.txt. For empty directories, you can use rmdir. Type rmdir empty-folder and it removes the directory — but only if it is completely empty. If there is anything inside, rmdir refuses to delete it. This is actually a safety feature. To delete a directory and everything inside it, use rm -r (recursive). Type rm -r old-project and Linux deletes the directory, all files inside it, all subdirectories, and all their files too. This is powerful and dangerous. One wrong command and you could wipe out hours of work. Here are some safety habits every Linux user should follow. First, always use the -i flag when deleting: rm -i myfile.txt asks you to confirm before deleting each file. You can type y for yes or n for no. Second, before running rm -r on a directory, use ls to check what is inside it first. Third, never run rm -r on system directories like /home, /etc, or especially /. That could destroy your entire operating system. Some systems even block this, but do not test it. A safer alternative is rm -ri, which asks you to confirm each file inside a directory before deleting it. It takes more time, but it can save you from mistakes. As you get more experienced, you will develop a feel for when to be extra careful. For now, always pause and read your command one more time before hitting Enter.",
+  "commands": [
+    {
+      "command": "touch deleteme.txt && ls deleteme.txt",
+      "description": "Create a test file and confirm it exists.",
+      "expectedOutput": "deleteme.txt"
+    },
+    {
+      "command": "rm deleteme.txt",
+      "description": "Delete the file. It is gone instantly — no confirmation, no recycle bin.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "mkdir empty-folder && rmdir empty-folder",
+      "description": "Create and then remove an empty directory with rmdir.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "mkdir -p test-project/src && touch test-project/src/app.py test-project/readme.txt",
+      "description": "Create a directory with files inside to practice rm -r.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "ls -R test-project",
+      "description": "Check what is inside before deleting. Always look before you rm -r!",
+      "expectedOutput": "test-project:\nreadme.txt  src\n\ntest-project/src:\napp.py"
+    },
+    {
+      "command": "rm -r test-project",
+      "description": "Delete the entire directory and everything inside it recursively.",
+      "expectedOutput": ""
+    },
+    {
+      "command": "ls test-project",
+      "description": "Confirm it is gone. You should see an error because it no longer exists.",
+      "expectedOutput": "ls: cannot access 'test-project': No such file or directory"
+    }
+  ],
+  "challenge": {
+    "question": "Create a folder called temp with a file inside called junk.txt. Then delete the entire temp folder and its contents in one command. How do you do it safely?",
+    "hint": "First create the structure with mkdir and touch. Then use ls to check, and rm -r to delete.",
+    "answer": "mkdir temp && touch temp/junk.txt && rm -r temp"
+  },
+  "funFact": "There is a famous joke in the Linux world about rm -rf / which would try to delete literally everything on your system. Modern Linux distributions have a safety flag that prevents this, but older systems were not so forgiving. System administrators have stories about accidentally wiping entire servers with a single mistyped command!"
+}

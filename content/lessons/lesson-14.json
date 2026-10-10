@@ -1,0 +1,48 @@
+{
+  "id": 14,
+  "slug": "finding-files",
+  "title": "Finding Files",
+  "module": 4,
+  "moduleName": "Finding & Filtering",
+  "difficulty": "Intermediate",
+  "objective": "Learn to locate files and directories on your system using the find command.",
+  "explanation": "Grep helps you search for text inside files, but what if you need to find the files themselves? Maybe you saved a photo somewhere but forgot which folder, or you want to find all Python scripts on your Raspberry Pi. That is what the find command is for. The find command searches through directories and subdirectories to locate files by name, type, size, and more. The basic syntax is: find where-to-look -name what-to-find. For example, find /home/youngster -name notes.txt will search your entire home directory for a file called notes.txt. If you are not sure about capitalization, use -iname instead of -name. This makes the search case-insensitive, so it would find Notes.txt, NOTES.TXT, or notes.txt. You can also use wildcards with find. The asterisk * matches anything. So find /home -name '*.txt' finds all files ending in .txt. Make sure to put quotes around patterns with wildcards so the shell does not expand them before find can use them. The -type flag lets you search for specific types. Use -type f to find only files, or -type d to find only directories. For example, find /home/youngster -type d -name projects would find a directory called projects. You can also combine conditions. find /home -name '*.log' -type f finds all log files. The find command starts from the directory you specify and searches everything inside it, including all subdirectories. This is called a recursive search. If you start from / (the root), it searches the entire system, which can take a while and show permission errors for system directories. Starting from your home directory is usually the best idea. The find command is incredibly powerful and has many more options, but these basics will cover most of what you need.",
+  "commands": [
+    {
+      "command": "find /home/youngster -name notes.txt",
+      "description": "Searches your home directory and all subdirectories for a file named exactly notes.txt.",
+      "expectedOutput": "/home/youngster/Documents/notes.txt"
+    },
+    {
+      "command": "find /home/youngster -iname '*.txt'",
+      "description": "Finds all files ending in .txt (case-insensitive) in your home directory.",
+      "expectedOutput": "/home/youngster/Documents/notes.txt\n/home/youngster/Documents/README.txt\n/home/youngster/todo.txt"
+    },
+    {
+      "command": "find /home/youngster -type d",
+      "description": "Lists all directories inside your home folder. The -type d means directories only.",
+      "expectedOutput": "/home/youngster\n/home/youngster/Documents\n/home/youngster/Downloads\n/home/youngster/Pictures\n/home/youngster/projects"
+    },
+    {
+      "command": "find /home/youngster -type f -name '*.sh'",
+      "description": "Finds all shell script files (ending in .sh) in your home directory.",
+      "expectedOutput": "/home/youngster/projects/hello.sh\n/home/youngster/scripts/backup.sh"
+    },
+    {
+      "command": "find /home/youngster -name '*.log' -type f",
+      "description": "Finds all log files. Combining -name and -type narrows the search.",
+      "expectedOutput": "/home/youngster/projects/app.log"
+    },
+    {
+      "command": "find . -name '*.py'",
+      "description": "The dot means the current directory. This finds all Python files starting from where you are now.",
+      "expectedOutput": "./game.py\n./utils/helper.py"
+    }
+  ],
+  "challenge": {
+    "question": "Find all directories in your home folder that are named 'projects'. What find command would you use?",
+    "hint": "You need two flags: -type d for directories and -name for the name to search.",
+    "answer": "find /home/youngster -type d -name projects"
+  },
+  "funFact": "The find command can even search by file age! You can use find /home -mtime -7 to find all files modified in the last 7 days. System administrators use this to find recently changed files after a security incident."
+}
