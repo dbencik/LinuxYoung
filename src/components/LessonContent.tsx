@@ -19,9 +19,9 @@ interface LessonContentProps {
 }
 
 const difficultyColor: Record<string, string> = {
-  Beginner: "bg-green-100 text-green-700",
-  Intermediate: "bg-yellow-100 text-yellow-700",
-  Advanced: "bg-red-100 text-red-700",
+  Beginner: "text-[var(--color-glow-green)] bg-[var(--color-bg-green)] border-[var(--color-muted-green)]",
+  Intermediate: "text-[var(--color-glow-amber)] bg-[var(--color-bg-amber)] border-[var(--color-dim-amber)]",
+  Advanced: "text-[var(--color-glow-red)] bg-[var(--color-bg-red)] border-[var(--color-dim-red)]",
 };
 
 export default function LessonContent({ lesson, prevId, nextId }: LessonContentProps) {
@@ -33,7 +33,6 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
   const [challengeCompleted, setChallengeCompleted] = useState(false);
   const [showCompletionAnimation, setShowCompletionAnimation] = useState(false);
 
-  // Load completion state from localStorage
   useEffect(() => {
     setLessonCompleted(getCompletedLessons().includes(lesson.id));
     setChallengeCompleted(getCompletedChallenges().includes(lesson.id));
@@ -43,15 +42,12 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
     setShowCompletionAnimation(false);
   }, [lesson.id]);
 
-  // Keyboard navigation (← →)
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-      if (e.key === "ArrowLeft" && prevId) {
-        router.push(`/lesson/${prevId}`);
-      } else if (e.key === "ArrowRight" && nextId) {
-        router.push(`/lesson/${nextId}`);
-      }
+      if (e.altKey || e.metaKey || e.ctrlKey || e.shiftKey || e.repeat) return;
+      if (e.key === "ArrowLeft" && prevId) router.push(`/lesson/${prevId}`);
+      else if (e.key === "ArrowRight" && nextId) router.push(`/lesson/${nextId}`);
     },
     [prevId, nextId, router]
   );
@@ -71,8 +67,14 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
 
   function handleChallengeSubmit() {
     const userAnswer = challengeInput.trim().toLowerCase();
+    if (!userAnswer) {
+      setChallengeResult("wrong");
+      return;
+    }
     const expected = lesson.challenge.answer.trim().toLowerCase();
-    if (userAnswer.includes(expected) || expected.includes(userAnswer)) {
+    // Normalize whitespace and check if user answer contains the expected command
+    const normalize = (s: string) => s.replace(/\s+/g, " ");
+    if (normalize(userAnswer).includes(normalize(expected))) {
       setChallengeResult("correct");
       if (!challengeCompleted) {
         completeChallenge(lesson.id);
@@ -87,39 +89,49 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
   return (
     <article className="mx-auto w-full max-w-3xl px-4 py-10">
       {/* Header */}
-      <div className="mb-8">
-        <div className="mb-3 flex flex-wrap items-center gap-2">
-          <span className="rounded-full bg-indigo-100 px-3 py-0.5 text-xs font-semibold text-indigo-700">
-            Module {lesson.module}: {lesson.moduleName}
+      <div className="fade-up mb-10">
+        <div className="mb-4 flex flex-wrap items-center gap-2">
+          <span className="rounded-md border border-[var(--color-border-default)] bg-[var(--color-elevated)] px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-wider text-[var(--color-txt-muted)]">
+            Module {lesson.module}
           </span>
-          <span
-            className={`rounded-full px-3 py-0.5 text-xs font-semibold ${difficultyColor[lesson.difficulty] || ""}`}
-          >
+          <span className={`rounded-md border px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-wider ${difficultyColor[lesson.difficulty] || ""}`}>
             {lesson.difficulty}
           </span>
           {lessonCompleted && (
-            <span className="rounded-full bg-green-100 px-3 py-0.5 text-xs font-semibold text-green-700">
-              Completed
+            <span className="rounded-md border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-wider text-[var(--color-glow-green)]">
+              Done
             </span>
           )}
         </div>
-        <h1 className="mb-2 text-3xl font-bold text-gray-900">
-          Lesson {lesson.id}: {lesson.title}
+        <h1 className="mb-3 text-3xl font-bold tracking-tight text-[var(--color-txt)] sm:text-4xl">
+          {lesson.title}
         </h1>
-        <p className="text-base text-gray-600">{lesson.objective}</p>
+        <p className="text-base text-[var(--color-txt-secondary)]">{lesson.objective}</p>
       </div>
 
       {/* Explanation */}
-      <section className="mb-8">
-        <h2 className="mb-3 text-xl font-semibold text-gray-800">Explanation</h2>
-        <div className="rounded-xl border border-gray-200 bg-gray-50 p-5 text-sm leading-relaxed text-gray-700">
+      <section className="fade-up mb-10" style={{ animationDelay: "0.1s" }}>
+        <div className="mb-3 flex items-center gap-2">
+          <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
+          <h2 className="font-mono text-[11px] font-medium uppercase tracking-widest text-[var(--color-txt-muted)]">
+            Explanation
+          </h2>
+          <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
+        </div>
+        <div className="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface)] p-6 text-sm leading-relaxed text-[var(--color-txt-secondary)]">
           {lesson.explanation}
         </div>
       </section>
 
       {/* Commands */}
-      <section className="mb-8">
-        <h2 className="mb-3 text-xl font-semibold text-gray-800">Commands to Try</h2>
+      <section className="fade-up mb-10" style={{ animationDelay: "0.15s" }}>
+        <div className="mb-3 flex items-center gap-2">
+          <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
+          <h2 className="font-mono text-[11px] font-medium uppercase tracking-widest text-[var(--color-txt-muted)]">
+            Commands
+          </h2>
+          <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
+        </div>
         <div className="space-y-3">
           {lesson.commands.map((cmd, idx) => (
             <CommandCard
@@ -135,132 +147,125 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
       </section>
 
       {/* Challenge */}
-      <section className="mb-8">
-        <h2 className="mb-3 text-xl font-semibold text-gray-800">Challenge</h2>
-        <div className="rounded-xl border-2 border-indigo-200 bg-indigo-50 p-5">
-          <p className="mb-3 text-sm font-medium text-indigo-900">{lesson.challenge.question}</p>
+      <section className="fade-up mb-10" style={{ animationDelay: "0.2s" }}>
+        <div className="mb-3 flex items-center gap-2">
+          <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
+          <h2 className="font-mono text-[11px] font-medium uppercase tracking-widest text-[var(--color-txt-muted)]">
+            Challenge
+          </h2>
+          <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
+        </div>
+        <div className="rounded-2xl border border-[var(--color-glow-blue)] bg-[var(--color-bg-blue)] p-6">
+          <p className="mb-4 text-sm font-medium text-[var(--color-txt)]">{lesson.challenge.question}</p>
 
-          {/* Challenge input */}
           <div className="mb-3 flex gap-2">
             <input
               type="text"
               value={challengeInput}
-              onChange={(e) => {
-                setChallengeInput(e.target.value);
-                setChallengeResult(null);
-              }}
+              onChange={(e) => { setChallengeInput(e.target.value); setChallengeResult(null); }}
               onKeyDown={(e) => e.key === "Enter" && handleChallengeSubmit()}
-              placeholder="Type your answer..."
-              className="flex-1 rounded-lg border border-indigo-200 bg-white px-3 py-2 font-mono text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+              placeholder="$ type your answer..."
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              className="flex-1 rounded-lg border border-[var(--color-border-default)] bg-[var(--color-canvas)] px-4 py-2.5 font-mono text-base text-[var(--color-glow-green)] placeholder-[var(--color-txt-muted)] focus:border-[var(--color-muted-green)] focus:outline-none focus:ring-2 focus:ring-[var(--color-glow-green)]/30"
+              aria-label="Challenge answer"
               data-testid="challenge-input"
             />
             <button
               onClick={handleChallengeSubmit}
               data-testid="challenge-submit"
-              className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-700"
+              className="rounded-lg border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] px-5 py-2.5 font-mono text-xs font-bold text-[var(--color-glow-green)] transition-all hover:bg-[var(--color-muted-green)] hover:text-[var(--color-canvas)]"
             >
-              Check
+              run
             </button>
           </div>
 
-          {/* Challenge result */}
           {challengeResult === "correct" && (
-            <div
-              data-testid="challenge-correct"
-              className="mb-3 rounded-lg bg-green-50 p-3 text-sm font-medium text-green-700"
-            >
-              Correct! +25 XP
+            <div data-testid="challenge-correct" className="mb-3 rounded-lg border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] p-3 font-mono text-xs text-[var(--color-glow-green)]">
+              ✓ Correct! +25 XP
             </div>
           )}
           {challengeResult === "wrong" && (
-            <div
-              data-testid="challenge-wrong"
-              className="mb-3 rounded-lg bg-red-50 p-3 text-sm font-medium text-red-700"
-            >
-              Not quite — try again or check the hint.
+            <div data-testid="challenge-wrong" className="mb-3 rounded-lg border border-[var(--color-dim-red)] bg-[var(--color-bg-red)] p-3 font-mono text-xs text-[var(--color-glow-red)]">
+              ✗ Not quite — try again or check the hint.
             </div>
           )}
 
-          {/* Hint toggle */}
-          <button
-            onClick={() => setShowHint(!showHint)}
-            className="rounded-lg bg-indigo-100 px-3 py-1.5 text-xs font-medium text-indigo-700 transition-colors hover:bg-indigo-200"
-          >
-            {showHint ? "Hide Hint" : "Show Hint"}
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowHint(!showHint)}
+              className="font-mono text-xs text-[var(--color-txt-muted)] transition-colors hover:text-[var(--color-txt-secondary)]"
+            >
+              {showHint ? "− hide hint" : "+ show hint"}
+            </button>
+            {challengeCompleted && (
+              <span className="font-mono text-xs font-bold text-[var(--color-glow-green)]">solved</span>
+            )}
+          </div>
           {showHint && (
-            <p className="mt-3 rounded-lg bg-white p-3 text-sm text-indigo-700">
+            <p className="mt-3 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-surface)] p-3 font-mono text-xs text-[var(--color-txt-muted)]">
               {lesson.challenge.hint}
             </p>
-          )}
-          {challengeCompleted && (
-            <span className="ml-2 text-xs font-semibold text-green-600">Solved!</span>
           )}
         </div>
       </section>
 
       {/* Fun Fact */}
-      <section className="mb-8">
-        <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
-          <h3 className="mb-1 text-sm font-semibold text-amber-800">Fun Fact</h3>
-          <p className="text-sm text-amber-700">{lesson.funFact}</p>
+      <section className="fade-up mb-10" style={{ animationDelay: "0.25s" }}>
+        <div className="rounded-2xl border border-[var(--color-dim-amber)] bg-[var(--color-bg-amber)] p-5">
+          <p className="mb-1 font-mono text-[11px] font-bold uppercase tracking-wider text-[var(--color-dim-amber)]">
+            Fun fact
+          </p>
+          <p className="text-sm text-[var(--color-glow-amber)]">{lesson.funFact}</p>
         </div>
       </section>
 
-      {/* Mark as Complete */}
-      <section className="mb-10">
+      {/* Complete Button */}
+      <section className="fade-up mb-10" style={{ animationDelay: "0.3s" }}>
         {!lessonCompleted ? (
           <button
             onClick={handleMarkComplete}
             data-testid="complete-button"
-            className="w-full rounded-xl bg-green-600 px-6 py-3.5 text-center text-sm font-semibold text-white shadow-sm transition-all hover:bg-green-700 active:scale-[0.98]"
+            className="w-full rounded-xl border border-[var(--color-muted-green)] bg-gradient-to-r from-[var(--color-muted-green)] to-[var(--color-dim-green)] px-6 py-4 text-center font-mono text-sm font-bold text-[var(--color-canvas)] shadow-[var(--glow-green)] transition-all hover:shadow-[0_0_30px_rgba(57,255,133,0.3)] active:scale-[0.99]"
           >
-            Mark Lesson as Complete (+10 XP)
+            $ mark-complete --xp=10
           </button>
         ) : (
           <div
             data-testid="completed-badge"
-            className={`flex items-center justify-center gap-2 rounded-xl border-2 border-green-200 bg-green-50 px-6 py-3.5 text-sm font-semibold text-green-700 ${
-              showCompletionAnimation ? "animate-pulse" : ""
+            className={`flex items-center justify-center gap-2 rounded-xl border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] px-6 py-4 font-mono text-sm font-bold text-[var(--color-glow-green)] ${
+              showCompletionAnimation ? "glow-pulse" : ""
             }`}
           >
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
-            Lesson Completed!
+            ✓ lesson completed
           </div>
         )}
       </section>
 
       {/* Navigation */}
-      <nav className="flex items-center justify-between border-t border-gray-200 pt-6">
+      <nav className="flex items-center justify-between border-t border-[var(--color-border-subtle)] pt-6">
         {prevId ? (
           <Link
             href={`/lesson/${prevId}`}
             data-testid="prev-button"
-            className="inline-flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200"
+            className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border-default)] bg-[var(--color-surface)] px-4 py-2.5 font-mono text-xs font-medium text-[var(--color-txt-muted)] transition-all hover:border-[var(--color-border-strong)] hover:text-[var(--color-txt)]"
           >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-            Previous
+            <span>←</span> prev
           </Link>
         ) : (
           <div />
         )}
 
-        <span className="text-xs text-gray-400">Use ← → to navigate</span>
+        <span className="font-mono text-[11px] text-[var(--color-txt-muted)]">← → to navigate</span>
 
         {nextId ? (
           <Link
             href={`/lesson/${nextId}`}
             data-testid="next-button"
-            className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-700"
+            className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] px-4 py-2.5 font-mono text-xs font-medium text-[var(--color-glow-green)] transition-all hover:bg-[var(--color-muted-green)] hover:text-[var(--color-canvas)]"
           >
-            Next
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
+            next <span>→</span>
           </Link>
         ) : (
           <div />

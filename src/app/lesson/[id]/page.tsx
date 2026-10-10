@@ -37,21 +37,23 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const nextId = lessonId < totalLessons ? lessonId + 1 : null;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Top Navigation Bar */}
-      <nav className="sticky top-0 z-10 border-b border-gray-200 bg-white/90 px-4 py-3 backdrop-blur">
+    <div className="min-h-screen">
+      {/* Top Navigation */}
+      <nav aria-label="Site navigation" className="sticky top-0 z-10 border-b border-[var(--color-border-subtle)] bg-[var(--color-canvas)]/90 px-4 py-3 backdrop-blur-md">
         <div className="mx-auto flex max-w-3xl items-center justify-between">
-          <a href="/" className="flex items-center gap-2 text-sm font-semibold text-gray-800">
-            <span className="text-lg">🐧</span>
+          <a href="/" className="flex items-center gap-2 px-2 py-1 font-mono text-xs font-medium text-[var(--color-txt-muted)] transition-colors hover:text-[var(--color-glow-green)]">
+            <span className="text-[var(--color-glow-green)]">~</span>
             LinuxYoung
           </a>
-          <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-500">
-            Lesson {lesson.id} of {totalLessons}
+          <span className="rounded-md border border-[var(--color-border-default)] bg-[var(--color-surface)] px-3 py-1 font-mono text-xs font-medium text-[var(--color-txt-muted)]">
+            {lesson.id}/{totalLessons}
           </span>
         </div>
       </nav>
 
-      <LessonContent lesson={lesson} prevId={prevId} nextId={nextId} />
+      <main>
+        <LessonContent lesson={lesson} prevId={prevId} nextId={nextId} />
+      </main>
     </div>
   );
 }
