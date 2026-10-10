@@ -1,42 +1,54 @@
 {
   "id": 20,
   "slug": "ssh-remote-access",
-  "title": "SSH — Remote Access",
+  "title": "SSH \u2014 Remote Access",
   "module": 5,
   "moduleName": "System & Beyond",
   "difficulty": "Intermediate",
   "objective": "Understand how SSH works, connect to remote machines, learn about SSH keys, and copy files securely with scp.",
-  "explanation": "What if you could control your Raspberry Pi from another computer — without even being in the same room? That is exactly what SSH does. SSH stands for Secure Shell, and it lets you open a terminal on a remote computer over the network. Everything you type is encrypted, which means nobody can spy on your commands or passwords as they travel across the internet. To connect to another machine, you type ssh followed by your username, the at sign, and the address of the remote computer: ssh youngster@192.168.1.50. If it is your first time connecting, SSH will ask you to confirm the remote computer's identity by showing a fingerprint. Type yes. Then it asks for your password. Once you are in, everything looks like a normal terminal, but every command you type runs on the remote machine, not your local one. To leave the remote session, type exit. Typing your password every time can get tedious, and it is also less secure. That is why SSH supports key-based authentication. An SSH key is a pair of files: a private key (which stays on your computer and you never share) and a public key (which you put on the remote machine). When you connect, the two keys work together to prove your identity without a password. You create keys with ssh-keygen and copy the public key to the remote machine with ssh-copy-id. Once that is done, you can log in without typing a password. SSH also comes with a file-copying tool called scp (secure copy). It works like cp, but across the network. To copy a file to a remote machine: scp myfile.txt youngster@192.168.1.50:/home/youngster/. To download a file from a remote machine: scp youngster@192.168.1.50:/home/youngster/data.txt ./. The colon separates the address from the file path. SSH is one of the most important tools in the Linux world. Every server on the internet is managed through SSH. When you learn it, you unlock the ability to manage computers anywhere in the world from your terminal.",
+  "explanation": "What if you could control your Raspberry Pi from another computer \u2014 without even being in the same room? That is exactly what SSH does. SSH stands for Secure Shell, and it lets you open a terminal on a remote computer over the network. Everything you type is encrypted, which means nobody can spy on your commands or passwords as they travel across the internet. To connect to another machine, you type ssh followed by your username, the at sign, and the address of the remote computer: ssh youngster@192.168.1.50. If it is your first time connecting, SSH will ask you to confirm the remote computer's identity by showing a fingerprint. Type yes. Then it asks for your password. Once you are in, everything looks like a normal terminal, but every command you type runs on the remote machine, not your local one. To leave the remote session, type exit. Typing your password every time can get tedious, and it is also less secure. That is why SSH supports key-based authentication. An SSH key is a pair of files: a private key (which stays on your computer and you never share) and a public key (which you put on the remote machine). When you connect, the two keys work together to prove your identity without a password. You create keys with ssh-keygen and copy the public key to the remote machine with ssh-copy-id. Once that is done, you can log in without typing a password. SSH also comes with a file-copying tool called scp (secure copy). It works like cp, but across the network. To copy a file to a remote machine: scp myfile.txt youngster@192.168.1.50:/home/youngster/. To download a file from a remote machine: scp youngster@192.168.1.50:/home/youngster/data.txt ./. The colon separates the address from the file path. SSH is one of the most important tools in the Linux world. Every server on the internet is managed through SSH. When you learn it, you unlock the ability to manage computers anywhere in the world from your terminal.",
   "commands": [
     {
       "command": "ssh youngster@192.168.1.50",
       "description": "Connects to a remote machine at IP address 192.168.1.50 as user 'youngster'. You will be asked for a password.",
-      "expectedOutput": "youngster@192.168.1.50's password:\nWelcome to Raspberry Pi OS (Debian GNU/Linux 12)\nyoungster@remotepi:~ $"
+      "expectedOutput": "youngster@192.168.1.50's password:\nWelcome to Raspberry Pi OS (Debian GNU/Linux 12)\nyoungster@remotepi:~ $",
+      "safety": "caution",
+      "troubleshooting": "If you see 'Connection refused', the SSH server may not be running. Try 'sudo systemctl start ssh' on the target machine."
     },
     {
       "command": "exit",
       "description": "Closes the SSH session and returns you to your local terminal.",
-      "expectedOutput": "logout\nConnection to 192.168.1.50 closed."
+      "expectedOutput": "logout\nConnection to 192.168.1.50 closed.",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "ssh-keygen -t ed25519",
       "description": "Creates a new SSH key pair. It will ask where to save it (press Enter for default) and for an optional passphrase.",
-      "expectedOutput": "Generating public/private ed25519 key pair.\nEnter file in which to save the key (/home/youngster/.ssh/id_ed25519):\nYour identification has been saved in /home/youngster/.ssh/id_ed25519\nYour public key has been saved in /home/youngster/.ssh/id_ed25519.pub"
+      "expectedOutput": "Generating public/private ed25519 key pair.\nEnter file in which to save the key (/home/youngster/.ssh/id_ed25519):\nYour identification has been saved in /home/youngster/.ssh/id_ed25519\nYour public key has been saved in /home/youngster/.ssh/id_ed25519.pub",
+      "safety": "modifies",
+      "troubleshooting": "If you see a warning about overwriting an existing key, you can press Enter to replace it or choose a different filename."
     },
     {
       "command": "ssh-copy-id youngster@192.168.1.50",
       "description": "Copies your public key to the remote machine so you can log in without a password next time.",
-      "expectedOutput": "/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: \"/home/youngster/.ssh/id_ed25519.pub\"\nNumber of key(s) added: 1\nNow try logging into the machine."
+      "expectedOutput": "/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: \"/home/youngster/.ssh/id_ed25519.pub\"\nNumber of key(s) added: 1\nNow try logging into the machine.",
+      "safety": "caution",
+      "troubleshooting": "If you see 'Connection refused', make sure the remote machine has SSH enabled and is on the same network."
     },
     {
       "command": "scp notes.txt youngster@192.168.1.50:/home/youngster/",
       "description": "Copies notes.txt from your local machine to the remote machine's home directory securely.",
-      "expectedOutput": "notes.txt                                  100%  128     1.2KB/s   00:00"
+      "expectedOutput": "notes.txt                                  100%  128     1.2KB/s   00:00",
+      "safety": "caution",
+      "troubleshooting": "If you see 'Permission denied', check that you have the correct username and that the remote path exists."
     },
     {
       "command": "scp youngster@192.168.1.50:/home/youngster/data.csv ./",
       "description": "Downloads data.csv from the remote machine to your current local directory.",
-      "expectedOutput": "data.csv                                   100% 2048     8.5KB/s   00:00"
+      "expectedOutput": "data.csv                                   100% 2048     8.5KB/s   00:00",
+      "safety": "caution",
+      "troubleshooting": "If you see 'No such file or directory', verify the file path on the remote machine by connecting via SSH first and checking with 'ls'."
     }
   ],
   "challenge": {
@@ -44,5 +56,5 @@
     "hint": "The format is ssh username@address. Replace the username and address with the ones given.",
     "answer": "ssh pi@192.168.1.100"
   },
-  "funFact": "SSH was created in 1995 by a Finnish researcher named Tatu Ylonen after a password-sniffing attack at his university. Before SSH, people used Telnet, which sent everything — including passwords — as plain text that anyone on the network could read!"
+  "funFact": "SSH was created in 1995 by a Finnish researcher named Tatu Ylonen after a password-sniffing attack at his university. Before SSH, people used Telnet, which sent everything \u2014 including passwords \u2014 as plain text that anyone on the network could read!"
 }

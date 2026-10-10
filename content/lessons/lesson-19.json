@@ -6,37 +6,49 @@
   "moduleName": "System & Beyond",
   "difficulty": "Intermediate",
   "objective": "Learn how to search for, install, and manage software packages using the apt package manager.",
-  "explanation": "On your phone, you install apps from the App Store or Google Play. On Linux, you install software using a package manager. On Raspberry Pi and other Debian-based systems (like Ubuntu), the package manager is called apt. A package is simply a bundle that contains a program and everything it needs to run. The package manager downloads it from an online repository, installs it, and keeps track of it so you can update or remove it later. Before installing anything, you should always run sudo apt update first. This command refreshes the list of available packages so your system knows about the latest versions. It does not install anything — it just updates the catalog. Think of it like refreshing a shopping website to see new products. To search for software, use apt search followed by a keyword. For example, apt search image editor shows you all packages related to image editing. The list can be long, so you might want to pipe it into grep to narrow it down. Once you find what you want, install it with sudo apt install followed by the package name. For example, sudo apt install htop installs htop, a beautiful process viewer that is much nicer than plain top. You need sudo because installing software changes system files. When apt asks 'Do you want to continue?', type y and press Enter. To remove software you no longer need, use sudo apt remove followed by the package name. If you want to update all installed software to their latest versions, run sudo apt upgrade after doing sudo apt update. This is how you keep your Raspberry Pi secure and up to date. It is a good habit to run update and upgrade regularly, perhaps once a week. The package manager is one of the best things about Linux. Instead of searching random websites for downloads, everything comes from a trusted, centralized source.",
+  "explanation": "On your phone, you install apps from the App Store or Google Play. On Linux, you install software using a package manager. On Raspberry Pi and other Debian-based systems (like Ubuntu), the package manager is called apt. A package is simply a bundle that contains a program and everything it needs to run. The package manager downloads it from an online repository, installs it, and keeps track of it so you can update or remove it later. Before installing anything, you should always run sudo apt update first. This command refreshes the list of available packages so your system knows about the latest versions. It does not install anything \u2014 it just updates the catalog. Think of it like refreshing a shopping website to see new products. To search for software, use apt search followed by a keyword. For example, apt search image editor shows you all packages related to image editing. The list can be long, so you might want to pipe it into grep to narrow it down. Once you find what you want, install it with sudo apt install followed by the package name. For example, sudo apt install htop installs htop, a beautiful process viewer that is much nicer than plain top. You need sudo because installing software changes system files. When apt asks 'Do you want to continue?', type y and press Enter. To remove software you no longer need, use sudo apt remove followed by the package name. If you want to update all installed software to their latest versions, run sudo apt upgrade after doing sudo apt update. This is how you keep your Raspberry Pi secure and up to date. It is a good habit to run update and upgrade regularly, perhaps once a week. The package manager is one of the best things about Linux. Instead of searching random websites for downloads, everything comes from a trusted, centralized source.",
   "commands": [
     {
       "command": "sudo apt update",
       "description": "Refreshes the list of available packages from the online repositories. Always do this before installing.",
-      "expectedOutput": "Hit:1 http://archive.raspberrypi.org/debian bookworm InRelease\nHit:2 http://deb.debian.org/debian bookworm InRelease\nReading package lists... Done\nBuilding dependency tree... Done"
+      "expectedOutput": "Hit:1 http://archive.raspberrypi.org/debian bookworm InRelease\nHit:2 http://deb.debian.org/debian bookworm InRelease\nReading package lists... Done\nBuilding dependency tree... Done",
+      "safety": "caution",
+      "troubleshooting": "If you see 'Could not resolve' errors, check your internet connection with 'ping google.com'."
     },
     {
       "command": "apt search htop",
       "description": "Searches for packages matching 'htop'. You do not need sudo for searching.",
-      "expectedOutput": "Sorting... Done\nFull Text Search... Done\nhtop/stable 3.2.2-2 arm64\n  interactive processes viewer"
+      "expectedOutput": "Sorting... Done\nFull Text Search... Done\nhtop/stable 3.2.2-2 arm64\n  interactive processes viewer",
+      "safety": "safe",
+      "troubleshooting": "If the search returns too many results, add '| grep <keyword>' to narrow it down."
     },
     {
       "command": "sudo apt install htop",
       "description": "Installs the htop package. Apt downloads it and sets everything up automatically.",
-      "expectedOutput": "Reading package lists... Done\nBuilding dependency tree... Done\nThe following NEW packages will be installed:\n  htop\n0 upgraded, 1 newly installed, 0 to remove and 12 not upgraded.\nNeed to get 142 kB of archives.\nSetting up htop (3.2.2-2) ...\n"
+      "expectedOutput": "Reading package lists... Done\nBuilding dependency tree... Done\nThe following NEW packages will be installed:\n  htop\n0 upgraded, 1 newly installed, 0 to remove and 12 not upgraded.\nNeed to get 142 kB of archives.\nSetting up htop (3.2.2-2) ...\n",
+      "safety": "caution",
+      "troubleshooting": "If you see 'Unable to locate package', run 'sudo apt update' first, then try again. Check the package name spelling."
     },
     {
       "command": "apt list --installed | head -10",
       "description": "Shows the first 10 installed packages on your system. The full list is usually very long.",
-      "expectedOutput": "Listing...\nadduser/stable,now 3.134 all [installed]\napt/stable,now 2.6.1 arm64 [installed]\nbase-files/stable,now 12.4+rpi1+deb12u5 arm64 [installed]\nbash/stable,now 5.2.15-2+b2 arm64 [installed]\ncoreutils/stable,now 9.1-1 arm64 [installed]"
+      "expectedOutput": "Listing...\nadduser/stable,now 3.134 all [installed]\napt/stable,now 2.6.1 arm64 [installed]\nbase-files/stable,now 12.4+rpi1+deb12u5 arm64 [installed]\nbash/stable,now 5.2.15-2+b2 arm64 [installed]\ncoreutils/stable,now 9.1-1 arm64 [installed]",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "sudo apt remove htop",
       "description": "Removes the htop package from your system. Your settings for it may be kept.",
-      "expectedOutput": "Reading package lists... Done\nRemoving htop (3.2.2-2) ...\n"
+      "expectedOutput": "Reading package lists... Done\nRemoving htop (3.2.2-2) ...\n",
+      "safety": "caution",
+      "troubleshooting": "If you see 'package is not installed', check the exact package name with 'apt list --installed | grep <name>'."
     },
     {
       "command": "sudo apt upgrade",
       "description": "Updates all installed packages to their latest versions. Run apt update first.",
-      "expectedOutput": "Reading package lists... Done\nBuilding dependency tree... Done\nCalculating upgrade... Done\n12 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\nNeed to get 28.4 MB of archives."
+      "expectedOutput": "Reading package lists... Done\nBuilding dependency tree... Done\nCalculating upgrade... Done\n12 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\nNeed to get 28.4 MB of archives.",
+      "safety": "caution",
+      "troubleshooting": "If upgrade fails midway, run 'sudo apt --fix-broken install' to repair the package system."
     }
   ],
   "challenge": {
@@ -44,5 +56,5 @@
     "hint": "First update with sudo apt update, then install with sudo apt install cowsay.",
     "answer": "sudo apt install cowsay"
   },
-  "funFact": "The Debian Linux repository has over 59,000 packages — all free! That is more apps than most app stores. And the name 'Debian' comes from its creator Ian Murdock and his girlfriend Debra: Deb + Ian = Debian."
+  "funFact": "The Debian Linux repository has over 59,000 packages \u2014 all free! That is more apps than most app stores. And the name 'Debian' comes from its creator Ian Murdock and his girlfriend Debra: Deb + Ian = Debian."
 }

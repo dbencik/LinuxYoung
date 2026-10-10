@@ -1,42 +1,54 @@
 {
   "id": 12,
   "slug": "sudo-the-superpower",
-  "title": "Sudo — The Superpower",
+  "title": "Sudo \u2014 The Superpower",
   "module": 3,
   "moduleName": "Users & Permissions",
   "difficulty": "Intermediate",
   "objective": "Understand the sudo command, the root user, and how to safely run commands with superuser privileges.",
-  "explanation": "Every Linux system has a special user called root. Root is the superuser — the administrator who can do absolutely anything: install software, change system files, create or delete users, and even break the entire system. Because root is so powerful, you should never log in as root directly. Instead, Linux gives you a safer way to borrow root powers temporarily: the sudo command. Sudo stands for superuser do. When you put sudo in front of a command, Linux checks if you are allowed to use it, asks for your password, and then runs that command with root privileges. For example, updating your software list requires root access, so you type sudo apt update instead of just apt update. Your password is not shown as you type it — not even dots appear. This is normal and is a security feature. After you type your password once, sudo remembers it for about 15 minutes, so you do not have to keep retyping it. The list of users who are allowed to use sudo is controlled by a file called /etc/sudoers. On a Raspberry Pi, your default user (like 'youngster' or 'pi') is already in the sudo group, which means you can use it right away. You should never edit the sudoers file directly — if you make a mistake, you could lock yourself out. There is a special command called visudo that safely edits it, but you will not need that for a long time. The golden rule of sudo is: only use it when you actually need it. Do not put sudo in front of every command just because it works. If a command works without sudo, do not add it. Using sudo carelessly can change file ownership, overwrite important settings, or damage your system. Think of sudo like borrowing the master key to your school — you can open any door, but you should only open the ones you need.",
+  "explanation": "Every Linux system has a special user called root. Root is the superuser \u2014 the administrator who can do absolutely anything: install software, change system files, create or delete users, and even break the entire system. Because root is so powerful, you should never log in as root directly. Instead, Linux gives you a safer way to borrow root powers temporarily: the sudo command. Sudo stands for superuser do. When you put sudo in front of a command, Linux checks if you are allowed to use it, asks for your password, and then runs that command with root privileges. For example, updating your software list requires root access, so you type sudo apt update instead of just apt update. Your password is not shown as you type it \u2014 not even dots appear. This is normal and is a security feature. After you type your password once, sudo remembers it for about 15 minutes, so you do not have to keep retyping it. The list of users who are allowed to use sudo is controlled by a file called /etc/sudoers. On a Raspberry Pi, your default user (like 'youngster' or 'pi') is already in the sudo group, which means you can use it right away. You should never edit the sudoers file directly \u2014 if you make a mistake, you could lock yourself out. There is a special command called visudo that safely edits it, but you will not need that for a long time. The golden rule of sudo is: only use it when you actually need it. Do not put sudo in front of every command just because it works. If a command works without sudo, do not add it. Using sudo carelessly can change file ownership, overwrite important settings, or damage your system. Think of sudo like borrowing the master key to your school \u2014 you can open any door, but you should only open the ones you need.",
   "commands": [
     {
       "command": "sudo whoami",
       "description": "Runs whoami with superuser privileges. Instead of showing your username, it shows 'root' because the command runs as root.",
-      "expectedOutput": "root"
+      "expectedOutput": "root",
+      "safety": "caution",
+      "troubleshooting": "If you see 'user is not in the sudoers file', your account does not have sudo privileges. Ask your administrator to add you."
     },
     {
       "command": "whoami",
       "description": "Without sudo, whoami shows your regular username for comparison.",
-      "expectedOutput": "youngster"
+      "expectedOutput": "youngster",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "sudo apt update",
       "description": "Updates the list of available software packages. This requires root access because it changes system files.",
-      "expectedOutput": "Hit:1 http://archive.raspberrypi.org/debian bookworm InRelease\nReading package lists... Done"
+      "expectedOutput": "Hit:1 http://archive.raspberrypi.org/debian bookworm InRelease\nReading package lists... Done",
+      "safety": "caution",
+      "troubleshooting": "If you see 'Could not resolve' errors, check your internet connection with 'ping google.com'."
     },
     {
       "command": "cat /etc/shadow",
       "description": "Tries to read the password file without sudo. This will be denied because only root can read it.",
-      "expectedOutput": "cat: /etc/shadow: Permission denied"
+      "expectedOutput": "cat: /etc/shadow: Permission denied",
+      "safety": "safe",
+      "troubleshooting": "If you see 'Permission denied', this is expected \u2014 the lesson demonstrates that you need sudo to read this file."
     },
     {
       "command": "sudo cat /etc/shadow | head -1",
       "description": "With sudo, you can read protected system files. The shadow file stores encrypted passwords.",
-      "expectedOutput": "root:*:19500:0:99999:7:::"
+      "expectedOutput": "root:*:19500:0:99999:7:::",
+      "safety": "caution",
+      "troubleshooting": null
     },
     {
       "command": "groups youngster",
       "description": "Shows which groups your user belongs to. You should see 'sudo' in the list, which is why you can use the sudo command.",
-      "expectedOutput": "youngster : youngster adm sudo users"
+      "expectedOutput": "youngster : youngster adm sudo users",
+      "safety": "safe",
+      "troubleshooting": "If the user does not exist, you will see 'no such user'. Check the spelling of the username."
     }
   ],
   "challenge": {

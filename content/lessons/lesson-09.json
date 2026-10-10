@@ -6,42 +6,56 @@
   "moduleName": "Users & Permissions",
   "difficulty": "Beginner",
   "objective": "Learn about Linux users, discover your identity with whoami, id, and groups, and peek inside /etc/passwd.",
-  "explanation": "Linux is a multi-user operating system. That means multiple people can use the same computer, each with their own account, their own files, and their own settings. Even if you are the only person using your Raspberry Pi, Linux still treats you as one user among potentially many. Every user has a username, a user ID number (called UID), and belongs to one or more groups. Groups are a way to organize users who need similar access. For example, all users who should be able to use the printer might be in a group called lpadmin. You already know the whoami command — it shows your username. But there is much more to discover about your identity. The id command shows your full user information: your UID, your main group ID (GID), and all the groups you belong to. You will see something like uid=1000(youngster) gid=1000(youngster) groups=1000(youngster),4(adm),27(sudo). The number 1000 is typical for the first regular user on a Linux system. System users and services usually have lower numbers. The groups command is a simpler way to see just the groups you belong to. Being in the sudo group is special — it means you have permission to run commands as the administrator (called root). The root user is the superuser who can do anything on the system. Root has UID 0. All user information is stored in a file called /etc/passwd. Despite the name, it does not actually contain passwords anymore — those are stored securely elsewhere. Each line in /etc/passwd represents one user and contains the username, UID, GID, home directory, and default shell, all separated by colons. You will see many users listed that are not real people. These are system accounts used by services running in the background. Understanding users and groups is the foundation for the next lesson about file permissions.",
+  "explanation": "Linux is a multi-user operating system. That means multiple people can use the same computer, each with their own account, their own files, and their own settings. Even if you are the only person using your Raspberry Pi, Linux still treats you as one user among potentially many. Every user has a username, a user ID number (called UID), and belongs to one or more groups. Groups are a way to organize users who need similar access. For example, all users who should be able to use the printer might be in a group called lpadmin. You already know the whoami command \u2014 it shows your username. But there is much more to discover about your identity. The id command shows your full user information: your UID, your main group ID (GID), and all the groups you belong to. You will see something like uid=1000(youngster) gid=1000(youngster) groups=1000(youngster),4(adm),27(sudo). The number 1000 is typical for the first regular user on a Linux system. System users and services usually have lower numbers. The groups command is a simpler way to see just the groups you belong to. Being in the sudo group is special \u2014 it means you have permission to run commands as the administrator (called root). The root user is the superuser who can do anything on the system. Root has UID 0. All user information is stored in a file called /etc/passwd. Despite the name, it does not actually contain passwords anymore \u2014 those are stored securely elsewhere. Each line in /etc/passwd represents one user and contains the username, UID, GID, home directory, and default shell, all separated by colons. You will see many users listed that are not real people. These are system accounts used by services running in the background. Understanding users and groups is the foundation for the next lesson about file permissions.",
   "commands": [
     {
       "command": "whoami",
       "description": "Display your username. Simple and direct.",
-      "expectedOutput": "youngster"
+      "expectedOutput": "youngster",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "id",
       "description": "Show your full identity: user ID, group ID, and all groups you belong to.",
-      "expectedOutput": "uid=1000(youngster) gid=1000(youngster) groups=1000(youngster),4(adm),24(cdrom),27(sudo),29(audio),44(video),100(users)"
+      "expectedOutput": "uid=1000(youngster) gid=1000(youngster) groups=1000(youngster),4(adm),24(cdrom),27(sudo),29(audio),44(video),100(users)",
+      "safety": "safe",
+      "troubleshooting": "If the output looks confusing, focus on the numbers after uid= and gid= \u2014 those are your user and group IDs. The names in parentheses are the human-readable versions."
     },
     {
       "command": "groups",
       "description": "List just the group names you belong to.",
-      "expectedOutput": "youngster adm cdrom sudo audio video users"
+      "expectedOutput": "youngster adm cdrom sudo audio video users",
+      "safety": "safe",
+      "troubleshooting": "If you see only one group listed, that is normal for some setups. Your primary group always matches your username."
     },
     {
       "command": "id -u",
       "description": "Show only your numeric user ID.",
-      "expectedOutput": "1000"
+      "expectedOutput": "1000",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "id root",
       "description": "Check the identity of the root (superuser) account. Notice UID is 0.",
-      "expectedOutput": "uid=0(root) gid=0(root) groups=0(root)"
+      "expectedOutput": "uid=0(root) gid=0(root) groups=0(root)",
+      "safety": "safe",
+      "troubleshooting": "If you see 'no such user', the root account may have a different name on your system, but this is rare on standard Linux installations."
     },
     {
       "command": "head -5 /etc/passwd",
       "description": "Peek at the first 5 lines of the passwd file to see system users.",
-      "expectedOutput": "root:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\nbin:x:2:2:bin:/bin:/usr/sbin/nologin\nsys:x:3:3:sys:/dev:/usr/sbin/nologin\nsync:x:4:65534:sync:/bin:/bin/sync"
+      "expectedOutput": "root:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\nbin:x:2:2:bin:/bin:/usr/sbin/nologin\nsys:x:3:3:sys:/dev:/usr/sbin/nologin\nsync:x:4:65534:sync:/bin:/bin/sync",
+      "safety": "safe",
+      "troubleshooting": "If you see 'Permission denied', your system restricts access to /etc/passwd. This is unusual \u2014 on most Linux systems, anyone can read this file."
     },
     {
       "command": "grep youngster /etc/passwd",
       "description": "Find your own entry in the passwd file.",
-      "expectedOutput": "youngster:x:1000:1000:youngster,,,:/home/youngster:/bin/bash"
+      "expectedOutput": "youngster:x:1000:1000:youngster,,,:/home/youngster:/bin/bash",
+      "safety": "safe",
+      "troubleshooting": "If no output appears, your username might be different. Try running 'whoami' first to confirm your username, then use that in the grep command."
     }
   ],
   "challenge": {
@@ -49,5 +63,5 @@
     "hint": "Run the id command and count the groups listed after groups=. Your UID is the number right after uid=.",
     "answer": "id"
   },
-  "funFact": "The root user is called root because it has access to the root (/) of the entire filesystem. In the early days of Unix, there was no password for root on many systems — anyone who walked up to the computer could become the all-powerful superuser!"
+  "funFact": "The root user is called root because it has access to the root (/) of the entire filesystem. In the early days of Unix, there was no password for root on many systems \u2014 anyone who walked up to the computer could become the all-powerful superuser!"
 }

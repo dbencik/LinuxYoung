@@ -6,42 +6,56 @@
   "moduleName": "Files & Folders",
   "difficulty": "Beginner",
   "objective": "Learn to create empty files with touch and new directories with mkdir, including nested directories.",
-  "explanation": "Now that you know how to move around the filesystem, it is time to start creating things. In Linux, you create empty files with the touch command and new folders (directories) with mkdir. The touch command is simple: type touch followed by a file name, and Linux creates an empty file with that name. If the file already exists, touch does not erase it — it just updates the timestamp to the current time. That is actually what touch was originally designed for, but most people use it to quickly create new files. You can create multiple files at once by listing them: touch file1.txt file2.txt file3.txt. To create a directory, use mkdir (short for make directory). Type mkdir followed by the folder name: mkdir projects creates a new folder called projects. Just like touch, you can create multiple directories at once: mkdir photos videos games. But what if you want to create a folder inside a folder that does not exist yet? For example, you want to create projects/python/games but neither projects nor python exist. If you try mkdir projects/python/games, Linux will complain because it cannot create games inside python if python does not exist yet. The solution is the -p flag, which stands for parents. When you type mkdir -p projects/python/games, Linux creates all the missing directories in the path. It builds the whole chain for you. This is one of the most useful flags in Linux. File names in Linux are case-sensitive. That means Report.txt and report.txt are two completely different files. Also, avoid spaces in file names when possible. If you must use a space, put quotes around the name: touch \"my file.txt\". But most Linux users prefer dashes or underscores: my-file.txt or my_file.txt.",
+  "explanation": "Now that you know how to move around the filesystem, it is time to start creating things. In Linux, you create empty files with the touch command and new folders (directories) with mkdir. The touch command is simple: type touch followed by a file name, and Linux creates an empty file with that name. If the file already exists, touch does not erase it \u2014 it just updates the timestamp to the current time. That is actually what touch was originally designed for, but most people use it to quickly create new files. You can create multiple files at once by listing them: touch file1.txt file2.txt file3.txt. To create a directory, use mkdir (short for make directory). Type mkdir followed by the folder name: mkdir projects creates a new folder called projects. Just like touch, you can create multiple directories at once: mkdir photos videos games. But what if you want to create a folder inside a folder that does not exist yet? For example, you want to create projects/python/games but neither projects nor python exist. If you try mkdir projects/python/games, Linux will complain because it cannot create games inside python if python does not exist yet. The solution is the -p flag, which stands for parents. When you type mkdir -p projects/python/games, Linux creates all the missing directories in the path. It builds the whole chain for you. This is one of the most useful flags in Linux. File names in Linux are case-sensitive. That means Report.txt and report.txt are two completely different files. Also, avoid spaces in file names when possible. If you must use a space, put quotes around the name: touch \"my file.txt\". But most Linux users prefer dashes or underscores: my-file.txt or my_file.txt.",
   "commands": [
     {
       "command": "touch myfile.txt",
       "description": "Create a new empty file called myfile.txt.",
-      "expectedOutput": ""
+      "expectedOutput": "",
+      "safety": "modifies",
+      "troubleshooting": "If you see 'Permission denied', you may not have write access to the current directory. Use 'cd ~' to go to your home directory and try again."
     },
     {
       "command": "ls -l myfile.txt",
-      "description": "Verify the file was created. Notice the size is 0 — it is empty.",
-      "expectedOutput": "-rw-r--r-- 1 youngster youngster 0 Oct 10 10:05 myfile.txt"
+      "description": "Verify the file was created. Notice the size is 0 \u2014 it is empty.",
+      "expectedOutput": "-rw-r--r-- 1 youngster youngster 0 Oct 10 10:05 myfile.txt",
+      "safety": "safe",
+      "troubleshooting": "If you see 'No such file or directory', the file was not created. Check that you spelled the filename correctly in the touch command."
     },
     {
       "command": "touch notes.txt todo.txt ideas.txt",
       "description": "Create three files at once with a single command.",
-      "expectedOutput": ""
+      "expectedOutput": "",
+      "safety": "modifies",
+      "troubleshooting": "If a file already exists, touch will not overwrite it \u2014 it just updates the timestamp. This is safe to run on existing files."
     },
     {
       "command": "mkdir projects",
       "description": "Create a new directory called projects.",
-      "expectedOutput": ""
+      "expectedOutput": "",
+      "safety": "modifies",
+      "troubleshooting": "If you see 'File exists', the folder already exists. Use 'ls' to verify."
     },
     {
       "command": "ls -la",
       "description": "List everything to see your new files and folder.",
-      "expectedOutput": "total 32\ndrwxr-xr-x 8 youngster youngster 4096 Oct 10 10:05 .\ndrwxr-xr-x 3 root      root      4096 Oct 10 10:00 ..\n-rw-r--r-- 1 youngster youngster  220 Oct 10 10:00 .bashrc\n-rw-r--r-- 1 youngster youngster  807 Oct 10 10:00 .profile\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Documents\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Downloads\n-rw-r--r-- 1 youngster youngster    0 Oct 10 10:05 ideas.txt\n-rw-r--r-- 1 youngster youngster    0 Oct 10 10:05 myfile.txt\n-rw-r--r-- 1 youngster youngster    0 Oct 10 10:05 notes.txt\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:05 projects\n-rw-r--r-- 1 youngster youngster    0 Oct 10 10:05 todo.txt"
+      "expectedOutput": "total 32\ndrwxr-xr-x 8 youngster youngster 4096 Oct 10 10:05 .\ndrwxr-xr-x 3 root      root      4096 Oct 10 10:00 ..\n-rw-r--r-- 1 youngster youngster  220 Oct 10 10:00 .bashrc\n-rw-r--r-- 1 youngster youngster  807 Oct 10 10:00 .profile\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Documents\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Downloads\n-rw-r--r-- 1 youngster youngster    0 Oct 10 10:05 ideas.txt\n-rw-r--r-- 1 youngster youngster    0 Oct 10 10:05 myfile.txt\n-rw-r--r-- 1 youngster youngster    0 Oct 10 10:05 notes.txt\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:05 projects\n-rw-r--r-- 1 youngster youngster    0 Oct 10 10:05 todo.txt",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "mkdir -p projects/python/games",
       "description": "Create nested directories in one go. The -p flag creates all parent directories.",
-      "expectedOutput": ""
+      "expectedOutput": "",
+      "safety": "modifies",
+      "troubleshooting": null
     },
     {
       "command": "ls -R projects",
       "description": "List the projects directory recursively to see the nested structure.",
-      "expectedOutput": "projects:\npython\n\nprojects/python:\ngames\n\nprojects/python/games:"
+      "expectedOutput": "projects:\npython\n\nprojects/python:\ngames\n\nprojects/python/games:",
+      "safety": "safe",
+      "troubleshooting": "If you see 'No such file or directory', the directory was not created. Check the path spelling."
     }
   ],
   "challenge": {

@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Lesson } from "@/lib/lessons";
-import CopyButton from "./CopyButton";
+import CommandCard from "./CommandCard";
 import {
   completeLesson,
   completeChallenge,
@@ -122,23 +122,14 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
         <h2 className="mb-3 text-xl font-semibold text-gray-800">Commands to Try</h2>
         <div className="space-y-3">
           {lesson.commands.map((cmd, idx) => (
-            <div key={idx} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="mb-2 flex items-center justify-between">
-                <code
-                  data-testid="copy-button"
-                  className="rounded bg-gray-900 px-3 py-1.5 font-mono text-sm text-green-400"
-                >
-                  $ {cmd.command}
-                </code>
-                <CopyButton text={cmd.command} />
-              </div>
-              <p className="mb-1 text-sm text-gray-600">{cmd.description}</p>
-              {cmd.expectedOutput && (
-                <p className="text-xs text-gray-400">
-                  Expected output: <code className="text-gray-500">{cmd.expectedOutput}</code>
-                </p>
-              )}
-            </div>
+            <CommandCard
+              key={idx}
+              command={cmd.command}
+              description={cmd.description}
+              expectedOutput={cmd.expectedOutput}
+              safety={cmd.safety || "safe"}
+              troubleshooting={cmd.troubleshooting || null}
+            />
           ))}
         </div>
       </section>

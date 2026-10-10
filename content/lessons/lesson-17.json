@@ -6,37 +6,49 @@
   "moduleName": "System & Beyond",
   "difficulty": "Intermediate",
   "objective": "Learn to check your system's hardware info, disk space, memory usage, and other vital statistics.",
-  "explanation": "Your Raspberry Pi is a real computer, and like any computer, it is useful to know what is going on inside it. How much disk space is left? Is your memory almost full? What version of Linux are you running? Linux gives you simple commands to answer all these questions. The command uname -a shows you everything about your system in one line: the operating system, the hostname (your computer's name), the kernel version, the architecture (whether it is 32-bit or 64-bit), and more. It is the quick identity check for your machine. To check disk space, use df -h. The df stands for disk free, and the -h flag means human-readable — it shows sizes in gigabytes and megabytes instead of raw numbers. You will see a table showing each drive or partition, how big it is, how much is used, and how much is free. Look at the row where the 'Mounted on' column says / — that is your main drive. If you want to know how much space a specific folder is using, use du -sh followed by the folder path. The du stands for disk usage, -s gives you a summary (just the total, not every single file), and -h makes it human-readable. For example, du -sh /home/youngster tells you the total size of your home directory. To check memory (RAM), use free -h. This shows you how much total memory your Pi has, how much is being used, and how much is free. On a Raspberry Pi, you might have 1GB, 2GB, 4GB, or 8GB of RAM depending on your model. If your memory is almost full, your system will slow down. These four commands — uname -a, df -h, du -sh, and free -h — are the basic health check for any Linux system. System administrators run these regularly to make sure everything is running smoothly.",
+  "explanation": "Your Raspberry Pi is a real computer, and like any computer, it is useful to know what is going on inside it. How much disk space is left? Is your memory almost full? What version of Linux are you running? Linux gives you simple commands to answer all these questions. The command uname -a shows you everything about your system in one line: the operating system, the hostname (your computer's name), the kernel version, the architecture (whether it is 32-bit or 64-bit), and more. It is the quick identity check for your machine. To check disk space, use df -h. The df stands for disk free, and the -h flag means human-readable \u2014 it shows sizes in gigabytes and megabytes instead of raw numbers. You will see a table showing each drive or partition, how big it is, how much is used, and how much is free. Look at the row where the 'Mounted on' column says / \u2014 that is your main drive. If you want to know how much space a specific folder is using, use du -sh followed by the folder path. The du stands for disk usage, -s gives you a summary (just the total, not every single file), and -h makes it human-readable. For example, du -sh /home/youngster tells you the total size of your home directory. To check memory (RAM), use free -h. This shows you how much total memory your Pi has, how much is being used, and how much is free. On a Raspberry Pi, you might have 1GB, 2GB, 4GB, or 8GB of RAM depending on your model. If your memory is almost full, your system will slow down. These four commands \u2014 uname -a, df -h, du -sh, and free -h \u2014 are the basic health check for any Linux system. System administrators run these regularly to make sure everything is running smoothly.",
   "commands": [
     {
       "command": "uname -a",
       "description": "Shows complete system information: kernel name, hostname, kernel version, architecture, and OS.",
-      "expectedOutput": "Linux raspberrypi 6.1.0-rpi7-rpi-v8 #1 SMP PREEMPT aarch64 GNU/Linux"
+      "expectedOutput": "Linux raspberrypi 6.1.0-rpi7-rpi-v8 #1 SMP PREEMPT aarch64 GNU/Linux",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "hostname",
       "description": "Shows just the name of your computer on the network.",
-      "expectedOutput": "raspberrypi"
+      "expectedOutput": "raspberrypi",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "df -h",
       "description": "Shows disk space usage for all drives in a human-readable format (GB, MB).",
-      "expectedOutput": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/mmcblk0p2   29G   5.2G   23G  19% /\ntmpfs           1.8G     0  1.8G   0% /dev/shm\n/dev/mmcblk0p1  255M   51M  205M  20% /boot"
+      "expectedOutput": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/mmcblk0p2   29G   5.2G   23G  19% /\ntmpfs           1.8G     0  1.8G   0% /dev/shm\n/dev/mmcblk0p1  255M   51M  205M  20% /boot",
+      "safety": "safe",
+      "troubleshooting": "If the output looks confusing, focus on the row where 'Mounted on' is '/' \u2014 that is your main drive."
     },
     {
       "command": "du -sh /home/youngster",
       "description": "Shows the total size of your home directory in a readable format.",
-      "expectedOutput": "248M\t/home/youngster"
+      "expectedOutput": "248M\t/home/youngster",
+      "safety": "safe",
+      "troubleshooting": "If you see 'Permission denied', some directories inside the path are protected. Try running with 'sudo'."
     },
     {
       "command": "du -sh /home/youngster/*",
       "description": "Shows the size of each item inside your home directory so you can see what takes the most space.",
-      "expectedOutput": "12M\t/home/youngster/Documents\n156M\t/home/youngster/Downloads\n4.0K\t/home/youngster/Desktop\n52M\t/home/youngster/Pictures\n28M\t/home/youngster/projects"
+      "expectedOutput": "12M\t/home/youngster/Documents\n156M\t/home/youngster/Downloads\n4.0K\t/home/youngster/Desktop\n52M\t/home/youngster/Pictures\n28M\t/home/youngster/projects",
+      "safety": "safe",
+      "troubleshooting": "If you see 'cannot access' errors, some items may have been deleted. Ignore the errors and check the rest."
     },
     {
       "command": "free -h",
       "description": "Shows memory (RAM) usage in human-readable format: total, used, free, and available.",
-      "expectedOutput": "              total        used        free      shared  buff/cache   available\nMem:          3.7Gi       512Mi       2.8Gi        32Mi       428Mi       3.1Gi\nSwap:          99Mi          0B        99Mi"
+      "expectedOutput": "              total        used        free      shared  buff/cache   available\nMem:          3.7Gi       512Mi       2.8Gi        32Mi       428Mi       3.1Gi\nSwap:          99Mi          0B        99Mi",
+      "safety": "safe",
+      "troubleshooting": null
     }
   ],
   "challenge": {

@@ -6,32 +6,42 @@
   "moduleName": "First Steps",
   "difficulty": "Beginner",
   "objective": "Master the ls command with flags to see hidden files, sizes, and sorted listings.",
-  "explanation": "You already know that ls lists files in a directory. But ls can do much more when you add flags — little options that start with a dash. Think of flags like superpowers for your commands. The most common flag is -l (lowercase L), which shows a long listing. Instead of just file names, you see permissions, owner, file size, and the date it was last changed. This is super useful when you want to know how big a file is or when it was modified. Another important flag is -a, which shows all files, including hidden ones. In Linux, any file or folder that starts with a dot is hidden. Your home directory actually has several hidden files that store your settings. Try ls -a and you will see files like .bashrc and .profile. You can combine flags too. Type ls -la and you get both — all files shown in long format. This is probably the most commonly used version of ls in the real world. Want to see file sizes in human-readable format? Add the -h flag: ls -lh shows sizes as K (kilobytes), M (megabytes), and G (gigabytes) instead of raw byte counts. You can also sort by time with -t (newest first) or reverse the order with -r. These flags work together, so ls -lhtr gives you a detailed list, human-readable sizes, sorted by time in reverse (oldest first). Pro tip: almost every Linux command has flags. You can always learn about them by reading the manual. We will cover that in a later lesson.",
+  "explanation": "You already know that ls lists files in a directory. But ls can do much more when you add flags \u2014 little options that start with a dash. Think of flags like superpowers for your commands. The most common flag is -l (lowercase L), which shows a long listing. Instead of just file names, you see permissions, owner, file size, and the date it was last changed. This is super useful when you want to know how big a file is or when it was modified. Another important flag is -a, which shows all files, including hidden ones. In Linux, any file or folder that starts with a dot is hidden. Your home directory actually has several hidden files that store your settings. Try ls -a and you will see files like .bashrc and .profile. You can combine flags too. Type ls -la and you get both \u2014 all files shown in long format. This is probably the most commonly used version of ls in the real world. Want to see file sizes in human-readable format? Add the -h flag: ls -lh shows sizes as K (kilobytes), M (megabytes), and G (gigabytes) instead of raw byte counts. You can also sort by time with -t (newest first) or reverse the order with -r. These flags work together, so ls -lhtr gives you a detailed list, human-readable sizes, sorted by time in reverse (oldest first). Pro tip: almost every Linux command has flags. You can always learn about them by reading the manual. We will cover that in a later lesson.",
   "commands": [
     {
       "command": "ls",
-      "description": "Basic listing — just file and folder names.",
-      "expectedOutput": "Documents  Downloads  Music  Pictures  Videos  hello.txt"
+      "description": "Basic listing \u2014 just file and folder names.",
+      "expectedOutput": "Documents  Downloads  Music  Pictures  Videos  hello.txt",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "ls -a",
       "description": "Show ALL files, including hidden ones that start with a dot.",
-      "expectedOutput": ".  ..  .bashrc  .profile  Documents  Downloads  Music  Pictures  Videos  hello.txt"
+      "expectedOutput": ".  ..  .bashrc  .profile  Documents  Downloads  Music  Pictures  Videos  hello.txt",
+      "safety": "safe",
+      "troubleshooting": "If you see fewer files than expected, remember that hidden files only appear with the -a flag. Files starting with a dot are hidden by default."
     },
     {
       "command": "ls -la",
       "description": "Long format + all files. The most useful combo.",
-      "expectedOutput": "total 28\ndrwxr-xr-x 7 youngster youngster 4096 Oct 10 10:00 .\ndrwxr-xr-x 3 root      root      4096 Oct 10 10:00 ..\n-rw-r--r-- 1 youngster youngster  220 Oct 10 10:00 .bashrc\n-rw-r--r-- 1 youngster youngster  807 Oct 10 10:00 .profile\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Documents\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Downloads\n-rw-r--r-- 1 youngster youngster   14 Oct 10 10:00 hello.txt"
+      "expectedOutput": "total 28\ndrwxr-xr-x 7 youngster youngster 4096 Oct 10 10:00 .\ndrwxr-xr-x 3 root      root      4096 Oct 10 10:00 ..\n-rw-r--r-- 1 youngster youngster  220 Oct 10 10:00 .bashrc\n-rw-r--r-- 1 youngster youngster  807 Oct 10 10:00 .profile\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Documents\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Downloads\n-rw-r--r-- 1 youngster youngster   14 Oct 10 10:00 hello.txt",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "ls -lh",
       "description": "Long format with human-readable file sizes (K, M, G).",
-      "expectedOutput": "total 4.0K\ndrwxr-xr-x 2 youngster youngster 4.0K Oct 10 10:00 Documents\ndrwxr-xr-x 2 youngster youngster 4.0K Oct 10 10:00 Downloads\n-rw-r--r-- 1 youngster youngster   14 Oct 10 10:00 hello.txt"
+      "expectedOutput": "total 4.0K\ndrwxr-xr-x 2 youngster youngster 4.0K Oct 10 10:00 Documents\ndrwxr-xr-x 2 youngster youngster 4.0K Oct 10 10:00 Downloads\n-rw-r--r-- 1 youngster youngster   14 Oct 10 10:00 hello.txt",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "ls -lt",
       "description": "Long format sorted by modification time, newest first.",
-      "expectedOutput": "total 4\n-rw-r--r-- 1 youngster youngster   14 Oct 10 10:00 hello.txt\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Documents\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Downloads"
+      "expectedOutput": "total 4\n-rw-r--r-- 1 youngster youngster   14 Oct 10 10:00 hello.txt\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Documents\ndrwxr-xr-x 2 youngster youngster 4096 Oct 10 10:00 Downloads",
+      "safety": "safe",
+      "troubleshooting": "If files appear in an unexpected order, remember -t sorts by modification time. Files changed at the same time may appear in any order."
     }
   ],
   "challenge": {

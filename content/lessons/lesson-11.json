@@ -11,37 +11,51 @@
     {
       "command": "chmod 755 myscript.sh",
       "description": "Sets the file to rwx for owner, and r-x for group and others. This is the standard permission for executable scripts.",
-      "expectedOutput": ""
+      "expectedOutput": "",
+      "safety": "caution",
+      "troubleshooting": "If you see 'Operation not permitted', try adding 'sudo' before the command."
     },
     {
       "command": "ls -l myscript.sh",
       "description": "Check the permissions after changing them. You should see rwxr-xr-x.",
-      "expectedOutput": "-rwxr-xr-x 1 youngster youngster 45 Oct 10 14:30 myscript.sh"
+      "expectedOutput": "-rwxr-xr-x 1 youngster youngster 45 Oct 10 14:30 myscript.sh",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "chmod 644 notes.txt",
       "description": "Sets read-write for owner, read-only for group and others. This is standard for regular files.",
-      "expectedOutput": ""
+      "expectedOutput": "",
+      "safety": "caution",
+      "troubleshooting": "If you see 'Operation not permitted', you may not own the file. Use 'ls -l' to check ownership."
     },
     {
       "command": "ls -l notes.txt",
       "description": "Verify the new permissions. You should see rw-r--r--.",
-      "expectedOutput": "-rw-r--r-- 1 youngster youngster 128 Oct 10 14:30 notes.txt"
+      "expectedOutput": "-rw-r--r-- 1 youngster youngster 128 Oct 10 14:30 notes.txt",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "chmod u+x hello.sh",
       "description": "Adds execute permission for the owner only, using symbolic mode.",
-      "expectedOutput": ""
+      "expectedOutput": "",
+      "safety": "caution",
+      "troubleshooting": "If you see 'No such file or directory', make sure the file exists first with 'ls'."
     },
     {
       "command": "chmod go-w shared.txt",
       "description": "Removes write permission from group and others. The owner keeps whatever permissions they already had.",
-      "expectedOutput": ""
+      "expectedOutput": "",
+      "safety": "caution",
+      "troubleshooting": "If you see 'Operation not permitted', try adding 'sudo' before the command."
     },
     {
       "command": "chmod a+r public.txt",
-      "description": "Adds read permission for everyone — owner, group, and others.",
-      "expectedOutput": ""
+      "description": "Adds read permission for everyone \u2014 owner, group, and others.",
+      "expectedOutput": "",
+      "safety": "caution",
+      "troubleshooting": null
     }
   ],
   "challenge": {
@@ -49,5 +63,5 @@
     "hint": "Owner gets read (4) + write (2) = 6. Group and others get nothing (0).",
     "answer": "chmod 600 secret.txt"
   },
-  "funFact": "The number 777 gives everyone full access to a file. System administrators call this 'chmod 777' the lazy fix — it works but it is a huge security risk. Never use it on a real server!"
+  "funFact": "The number 777 gives everyone full access to a file. System administrators call this 'chmod 777' the lazy fix \u2014 it works but it is a huge security risk. Never use it on a real server!"
 }

@@ -11,32 +11,44 @@
     {
       "command": "find /home/youngster -name notes.txt",
       "description": "Searches your home directory and all subdirectories for a file named exactly notes.txt.",
-      "expectedOutput": "/home/youngster/Documents/notes.txt"
+      "expectedOutput": "/home/youngster/Documents/notes.txt",
+      "safety": "safe",
+      "troubleshooting": "If you see no results, the file may not exist or the name might be spelled differently. Try '-iname' for case-insensitive search."
     },
     {
       "command": "find /home/youngster -iname '*.txt'",
       "description": "Finds all files ending in .txt (case-insensitive) in your home directory.",
-      "expectedOutput": "/home/youngster/Documents/notes.txt\n/home/youngster/Documents/README.txt\n/home/youngster/todo.txt"
+      "expectedOutput": "/home/youngster/Documents/notes.txt\n/home/youngster/Documents/README.txt\n/home/youngster/todo.txt",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "find /home/youngster -type d",
       "description": "Lists all directories inside your home folder. The -type d means directories only.",
-      "expectedOutput": "/home/youngster\n/home/youngster/Documents\n/home/youngster/Downloads\n/home/youngster/Pictures\n/home/youngster/projects"
+      "expectedOutput": "/home/youngster\n/home/youngster/Documents\n/home/youngster/Downloads\n/home/youngster/Pictures\n/home/youngster/projects",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "find /home/youngster -type f -name '*.sh'",
       "description": "Finds all shell script files (ending in .sh) in your home directory.",
-      "expectedOutput": "/home/youngster/projects/hello.sh\n/home/youngster/scripts/backup.sh"
+      "expectedOutput": "/home/youngster/projects/hello.sh\n/home/youngster/scripts/backup.sh",
+      "safety": "safe",
+      "troubleshooting": "If you see many 'Permission denied' errors, add '2>/dev/null' at the end to hide them."
     },
     {
       "command": "find /home/youngster -name '*.log' -type f",
       "description": "Finds all log files. Combining -name and -type narrows the search.",
-      "expectedOutput": "/home/youngster/projects/app.log"
+      "expectedOutput": "/home/youngster/projects/app.log",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "find . -name '*.py'",
       "description": "The dot means the current directory. This finds all Python files starting from where you are now.",
-      "expectedOutput": "./game.py\n./utils/helper.py"
+      "expectedOutput": "./game.py\n./utils/helper.py",
+      "safety": "safe",
+      "troubleshooting": "If you see 'Permission denied' errors, you are searching directories you do not have access to. Start from your home directory instead of /."
     }
   ],
   "challenge": {

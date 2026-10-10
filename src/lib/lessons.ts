@@ -5,6 +5,8 @@ export interface LessonCommand {
   command: string;
   description: string;
   expectedOutput: string;
+  safety: "safe" | "modifies" | "caution";
+  troubleshooting: string | null;
 }
 
 export interface LessonChallenge {

@@ -3,7 +3,7 @@
 **Status:** Ready for implementation  
 **Methodology:** AICLP (AI Closed-Loop Programming)  
 **Generated:** 2026-10-10  
-**Tech Stack:** Next.js 14, TypeScript, Tailwind CSS, xterm.js, Remotion, Puppeteer (PDF)
+**Tech Stack:** Next.js 14, TypeScript, Tailwind CSS, Remotion, Puppeteer (PDF)
 
 ---
 
@@ -61,49 +61,64 @@ test("lesson page renders correctly", async () => {
 
 ---
 
-## REQUIREMENT 2: In-Browser Virtual Terminal
+## REQUIREMENT 2b: Guided Real Terminal Experience
 
 **User Story:**  
-As a teenager, I want to paste and run Linux commands in a safe virtual terminal inside the browser, so that I can practice without breaking anything on my real computer.
+As a teenager with a Raspberry Pi, I want to see exactly what each command should output on my real terminal, with safety warnings and troubleshooting tips, so that I can follow along confidently without fear of breaking anything.
 
 **Requirement:**  
-System SHALL embed an xterm.js-based terminal emulator that:
-- Accepts pasted commands from lesson "Copy to Terminal" buttons
-- Simulates a Linux filesystem (home directory, /etc, /var, /usr)
-- Supports commands: ls, cd, pwd, cat, echo, mkdir, rmdir, cp, mv, rm, touch, chmod, chown, grep, find, man, whoami, uname, df, du, top (simulated), ps (simulated), pipe (|), redirect (>, >>), history
-- Shows realistic output matching what a real Raspberry Pi OS would show
-- Resets filesystem state per lesson (no cross-contamination)
-- Displays green prompt: `youngster@linux:~$`
+System SHALL display for each command in every lesson:
+- One-click "Copy" button to copy command to clipboard (for pasting into real terminal)
+- Expected output block showing realistic Raspberry Pi OS output
+- Safety label on each command: "safe" (read-only, no changes), "modifies" (creates/changes files), or "caution" (deletes files, needs sudo, system-level)
+- Troubleshooting tip per command: "If you see X instead, try Y" (at least for commands where common errors occur)
+- Visual diff hint: green highlight for expected output, so user can compare with their real terminal
+
+Each lesson's commands array SHALL include:
+- `command`: the command string
+- `description`: what it does in plain English
+- `expectedOutput`: realistic RPi OS output
+- `safety`: one of "safe" | "modifies" | "caution"
+- `troubleshooting`: optional string with common error + fix (null if not applicable)
 
 **Falsifiable Test:**
 ```
-Given: Terminal is open on lesson 1
-When: User types "ls" and presses Enter
-Then: Terminal shows file listing matching the lesson's virtual filesystem
-      Output appears within 100ms
+Given: User opens lesson 5 (Creating Files and Folders)
+When: User views the "mkdir projects" command
+Then: Safety label shows "modifies" (orange badge)
+      Expected output is displayed in a terminal-styled block
+      Copy button copies "mkdir projects" to clipboard
+      If troubleshooting exists, it is shown below the expected output
 ```
 
 **Success Criterion:**
-- 25+ Linux commands supported with realistic output
-- Command execution latency < 100ms
-- No command crashes the terminal; unknown commands show "command not found: <cmd>"
-- Filesystem state resets correctly when switching lessons
+- Every command in every lesson has a safety label ("safe", "modifies", or "caution")
+- At least 50% of commands have a troubleshooting tip
+- Expected output renders in monospace with terminal styling
+- Copy button works on all modern browsers (clipboard API with fallback)
 
 **Acceptance Test (Pseudocode):**
 ```typescript
-test("terminal executes ls command", () => {
-  const fs = createVirtualFS(lesson1Files);
-  const result = executeCommand("ls", fs);
-  expect(result.output).toContain("Documents");
-  expect(result.output).toContain("hello.txt");
-  expect(result.exitCode).toBe(0);
+test("all commands have safety labels", () => {
+  const lessons = loadAllLessons();
+  lessons.forEach(lesson => {
+    lesson.commands.forEach(cmd => {
+      expect(["safe", "modifies", "caution"]).toContain(cmd.safety);
+    });
+  });
 });
 
-test("unknown command returns error", () => {
-  const fs = createVirtualFS(lesson1Files);
-  const result = executeCommand("foobar", fs);
-  expect(result.output).toContain("command not found: foobar");
-  expect(result.exitCode).toBe(127);
+test("at least 50% of commands have troubleshooting tips", () => {
+  const lessons = loadAllLessons();
+  let total = 0;
+  let withTips = 0;
+  lessons.forEach(lesson => {
+    lesson.commands.forEach(cmd => {
+      total++;
+      if (cmd.troubleshooting) withTips++;
+    });
+  });
+  expect(withTips / total).toBeGreaterThanOrEqual(0.5);
 });
 ```
 
@@ -347,15 +362,13 @@ LinuxYoung/
 │   │   ├── lesson/[id]/     # Lesson pages
 │   │   └── layout.tsx       # Root layout
 │   ├── components/
-│   │   ├── Terminal.tsx      # xterm.js wrapper (REQ 2)
-│   │   ├── LessonContent.tsx # Lesson renderer (REQ 1)
+│   │   ├── LessonContent.tsx # Lesson renderer (REQ 1, REQ 2b)
+│   │   ├── CommandCard.tsx   # Command with safety label + troubleshooting (REQ 2b)
 │   │   ├── ProgressBar.tsx   # Progress tracker (REQ 7)
-│   │   ├── CopyButton.tsx    # Copy-to-terminal (REQ 1)
+│   │   ├── CopyButton.tsx    # Copy to clipboard (REQ 1)
 │   │   ├── Badge.tsx         # Gamification badges (REQ 7)
 │   │   └── VideoPlayer.tsx   # Remotion player embed (REQ 5)
 │   ├── lib/
-│   │   ├── virtual-fs.ts    # Virtual filesystem (REQ 2)
-│   │   ├── command-parser.ts # Command execution engine (REQ 2)
 │   │   ├── progress.ts      # Progress & XP tracking (REQ 7)
 │   │   └── lessons.ts       # Lesson loader & validator (REQ 3)
 │   ├── videos/              # Remotion compositions (REQ 5)

@@ -6,37 +6,49 @@
   "moduleName": "System & Beyond",
   "difficulty": "Intermediate",
   "objective": "Understand what processes are and how to view, monitor, and stop them using ps, top, and kill.",
-  "explanation": "Every time you run a command or open a program, Linux creates a process. A process is simply a running program. Your terminal is a process. Your web browser is a process. Even the command you just typed creates a short-lived process. Each process gets a unique number called a PID (Process ID). Linux uses PIDs to keep track of everything that is running. You can see your own running processes with the ps command. Just typing ps shows the processes in your current terminal session. For a much more complete picture, use ps aux. This shows every process on the entire system — not just yours. The output has columns for the user who started the process, the PID, how much CPU and memory it uses, and the command that started it. It can be a long list, so you might want to pipe it into grep to find something specific, like ps aux | grep python to find any running Python programs. For real-time monitoring, there is the top command. It is like a task manager that updates every few seconds, showing you which processes are using the most CPU and memory. Press q to quit top when you are done watching. Sometimes a program freezes or you need to stop something running in the background. That is where the kill command comes in. You give it the PID of the process you want to stop: kill 1234 sends a polite request to process 1234 to shut down. If a program is really stuck and ignores the polite request, you can use kill -9 1234 which forces it to stop immediately. The -9 flag sends a signal called SIGKILL, which cannot be ignored. Use it only as a last resort because it does not give the program time to save data or clean up. Understanding processes is important because it helps you figure out why your system might be slow, what programs are running, and how to stop something that is misbehaving.",
+  "explanation": "Every time you run a command or open a program, Linux creates a process. A process is simply a running program. Your terminal is a process. Your web browser is a process. Even the command you just typed creates a short-lived process. Each process gets a unique number called a PID (Process ID). Linux uses PIDs to keep track of everything that is running. You can see your own running processes with the ps command. Just typing ps shows the processes in your current terminal session. For a much more complete picture, use ps aux. This shows every process on the entire system \u2014 not just yours. The output has columns for the user who started the process, the PID, how much CPU and memory it uses, and the command that started it. It can be a long list, so you might want to pipe it into grep to find something specific, like ps aux | grep python to find any running Python programs. For real-time monitoring, there is the top command. It is like a task manager that updates every few seconds, showing you which processes are using the most CPU and memory. Press q to quit top when you are done watching. Sometimes a program freezes or you need to stop something running in the background. That is where the kill command comes in. You give it the PID of the process you want to stop: kill 1234 sends a polite request to process 1234 to shut down. If a program is really stuck and ignores the polite request, you can use kill -9 1234 which forces it to stop immediately. The -9 flag sends a signal called SIGKILL, which cannot be ignored. Use it only as a last resort because it does not give the program time to save data or clean up. Understanding processes is important because it helps you figure out why your system might be slow, what programs are running, and how to stop something that is misbehaving.",
   "commands": [
     {
       "command": "ps",
       "description": "Shows processes running in your current terminal session. You will see at least bash and ps itself.",
-      "expectedOutput": "    PID TTY          TIME CMD\n   1842 pts/0    00:00:00 bash\n   2105 pts/0    00:00:00 ps"
+      "expectedOutput": "    PID TTY          TIME CMD\n   1842 pts/0    00:00:00 bash\n   2105 pts/0    00:00:00 ps",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "ps aux | head -10",
       "description": "Shows all system processes (first 10 lines). The columns show user, PID, CPU, memory, and command.",
-      "expectedOutput": "USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nroot           1  0.0  0.2 167204 11264 ?        Ss   08:00   0:02 /sbin/init\nroot           2  0.0  0.0      0     0 ?        S    08:00   0:00 [kthreadd]\nroot          87  0.0  0.1  28312  5632 ?        Ss   08:00   0:00 /lib/systemd/systemd-journald\nroot         108  0.0  0.1  22020  5376 ?        Ss   08:00   0:00 /lib/systemd/systemd-udevd\nyoungster   1842  0.0  0.1   8536  5120 pts/0    Ss   09:15   0:00 -bash"
+      "expectedOutput": "USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nroot           1  0.0  0.2 167204 11264 ?        Ss   08:00   0:02 /sbin/init\nroot           2  0.0  0.0      0     0 ?        S    08:00   0:00 [kthreadd]\nroot          87  0.0  0.1  28312  5632 ?        Ss   08:00   0:00 /lib/systemd/systemd-journald\nroot         108  0.0  0.1  22020  5376 ?        Ss   08:00   0:00 /lib/systemd/systemd-udevd\nyoungster   1842  0.0  0.1   8536  5120 pts/0    Ss   09:15   0:00 -bash",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "ps aux | grep bash",
       "description": "Filters the process list to show only processes with 'bash' in their name.",
-      "expectedOutput": "youngster   1842  0.0  0.1   8536  5120 pts/0    Ss   09:15   0:00 -bash\nyoungster   2110  0.0  0.0   6420   720 pts/0    S+   10:30   0:00 grep bash"
+      "expectedOutput": "youngster   1842  0.0  0.1   8536  5120 pts/0    Ss   09:15   0:00 -bash\nyoungster   2110  0.0  0.0   6420   720 pts/0    S+   10:30   0:00 grep bash",
+      "safety": "safe",
+      "troubleshooting": "Note that grep will also find itself in the results. You can ignore the line that says 'grep bash'."
     },
     {
       "command": "top -bn1 | head -15",
       "description": "Runs top in batch mode for one snapshot. Shows system summary and the top processes by CPU usage.",
-      "expectedOutput": "top - 10:30:45 up 2:30, 1 user, load average: 0.15, 0.10, 0.05\nTasks: 112 total,   1 running, 111 sleeping,   0 stopped,   0 zombie\n%Cpu(s):  2.3 us,  1.1 sy,  0.0 ni, 96.4 id,  0.1 wa,  0.0 hi,  0.1 si\nMiB Mem :   3778.2 total,   2892.4 free,    512.8 used,    373.0 buff/cache\nMiB Swap:     99.0 total,     99.0 free,      0.0 used.   3180.6 avail Mem\n\n    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND\n      1 root      20   0  167204  11264   8320 S   0.0   0.3   0:02.15 systemd\n   1842 youngst+  20   0    8536   5120   3456 S   0.0   0.1   0:00.45 bash"
+      "expectedOutput": "top - 10:30:45 up 2:30, 1 user, load average: 0.15, 0.10, 0.05\nTasks: 112 total,   1 running, 111 sleeping,   0 stopped,   0 zombie\n%Cpu(s):  2.3 us,  1.1 sy,  0.0 ni, 96.4 id,  0.1 wa,  0.0 hi,  0.1 si\nMiB Mem :   3778.2 total,   2892.4 free,    512.8 used,    373.0 buff/cache\nMiB Swap:     99.0 total,     99.0 free,      0.0 used.   3180.6 avail Mem\n\n    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND\n      1 root      20   0  167204  11264   8320 S   0.0   0.3   0:02.15 systemd\n   1842 youngst+  20   0    8536   5120   3456 S   0.0   0.1   0:00.45 bash",
+      "safety": "safe",
+      "troubleshooting": "If top seems stuck, press 'q' to quit. If that does not work, press Ctrl+C."
     },
     {
       "command": "kill 2105",
       "description": "Sends a gentle stop signal to process 2105. The process should shut down gracefully.",
-      "expectedOutput": ""
+      "expectedOutput": "",
+      "safety": "caution",
+      "troubleshooting": "If you see 'No such process', the process already ended. Run 'ps aux | grep <name>' to find the current PID."
     },
     {
       "command": "kill -9 2105",
       "description": "Force-kills process 2105 immediately. Use only when a process is completely frozen.",
-      "expectedOutput": ""
+      "expectedOutput": "",
+      "safety": "caution",
+      "troubleshooting": "If the process doesn't stop with regular kill, 'kill -9' forces it. But use it as a last resort \u2014 the program cannot save data."
     }
   ],
   "challenge": {
@@ -44,5 +56,5 @@
     "hint": "Use ps aux to list all processes, then pipe into grep to filter for 'bash'.",
     "answer": "ps aux | grep bash"
   },
-  "funFact": "A 'zombie process' is a real thing in Linux! It is a process that has finished running but still has an entry in the process table. It does not use any resources — it just sits there until its parent process acknowledges it is done. Spooky!"
+  "funFact": "A 'zombie process' is a real thing in Linux! It is a process that has finished running but still has an entry in the process table. It does not use any resources \u2014 it just sits there until its parent process acknowledges it is done. Spooky!"
 }

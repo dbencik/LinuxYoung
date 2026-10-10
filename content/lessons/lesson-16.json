@@ -6,42 +6,56 @@
   "moduleName": "Finding & Filtering",
   "difficulty": "Intermediate",
   "objective": "Learn to redirect command output to files, append to files, and handle error output using redirection operators.",
-  "explanation": "In the last lesson you learned about pipes, which send output from one command to another. But what if you want to save the output to a file instead? That is where redirection comes in. The greater-than sign > redirects output to a file. For example, echo Hello > greeting.txt creates a file called greeting.txt containing the word Hello. If the file already exists, it gets overwritten — the old content is gone. This is important to remember so you do not accidentally lose data. If you want to add to a file instead of replacing it, use double greater-than >>. echo Goodbye >> greeting.txt adds 'Goodbye' to the end of greeting.txt without erasing what was already there. This is called appending. You will use this a lot for log files. The less-than sign < redirects input. Instead of typing data yourself, you can feed a file to a command. For example, wc -l < greeting.txt counts the lines in greeting.txt. It works like cat greeting.txt | wc -l but is slightly more efficient. Now here is something clever: Linux separates regular output and error messages into two streams. Regular output is called stdout (standard output), and error messages are called stderr (standard error). Sometimes you want to save errors to a separate file. You do this with 2>, where 2 represents stderr. For example, find / -name secret.txt 2> errors.txt runs the find command and saves any permission errors to errors.txt while still showing the results on screen. Sometimes you do not care about errors at all. Linux has a special place called /dev/null — it is a black hole that swallows anything you send to it. Writing find / -name file.txt 2> /dev/null throws away all error messages and shows only the actual results. System administrators love /dev/null for keeping output clean.",
+  "explanation": "In the last lesson you learned about pipes, which send output from one command to another. But what if you want to save the output to a file instead? That is where redirection comes in. The greater-than sign > redirects output to a file. For example, echo Hello > greeting.txt creates a file called greeting.txt containing the word Hello. If the file already exists, it gets overwritten \u2014 the old content is gone. This is important to remember so you do not accidentally lose data. If you want to add to a file instead of replacing it, use double greater-than >>. echo Goodbye >> greeting.txt adds 'Goodbye' to the end of greeting.txt without erasing what was already there. This is called appending. You will use this a lot for log files. The less-than sign < redirects input. Instead of typing data yourself, you can feed a file to a command. For example, wc -l < greeting.txt counts the lines in greeting.txt. It works like cat greeting.txt | wc -l but is slightly more efficient. Now here is something clever: Linux separates regular output and error messages into two streams. Regular output is called stdout (standard output), and error messages are called stderr (standard error). Sometimes you want to save errors to a separate file. You do this with 2>, where 2 represents stderr. For example, find / -name secret.txt 2> errors.txt runs the find command and saves any permission errors to errors.txt while still showing the results on screen. Sometimes you do not care about errors at all. Linux has a special place called /dev/null \u2014 it is a black hole that swallows anything you send to it. Writing find / -name file.txt 2> /dev/null throws away all error messages and shows only the actual results. System administrators love /dev/null for keeping output clean.",
   "commands": [
     {
       "command": "echo \"Hello Linux\" > hello.txt",
       "description": "Creates a new file called hello.txt containing 'Hello Linux'. If the file exists, it gets overwritten.",
-      "expectedOutput": ""
+      "expectedOutput": "",
+      "safety": "modifies",
+      "troubleshooting": "Be careful with '>' \u2014 it overwrites the file without warning. If you accidentally overwrote a file, the old content is gone."
     },
     {
       "command": "cat hello.txt",
       "description": "Verify the file was created with the correct content.",
-      "expectedOutput": "Hello Linux"
+      "expectedOutput": "Hello Linux",
+      "safety": "safe",
+      "troubleshooting": "If you see 'No such file or directory', the file was not created. Check that the previous command ran without errors."
     },
     {
       "command": "echo \"Welcome back\" >> hello.txt",
       "description": "Appends 'Welcome back' to the end of hello.txt without erasing the first line.",
-      "expectedOutput": ""
+      "expectedOutput": "",
+      "safety": "modifies",
+      "troubleshooting": null
     },
     {
       "command": "cat hello.txt",
-      "description": "Now the file has two lines — the original plus the appended one.",
-      "expectedOutput": "Hello Linux\nWelcome back"
+      "description": "Now the file has two lines \u2014 the original plus the appended one.",
+      "expectedOutput": "Hello Linux\nWelcome back",
+      "safety": "safe",
+      "troubleshooting": null
     },
     {
       "command": "ls /home/youngster > filelist.txt",
       "description": "Saves the directory listing to a file instead of showing it on screen. Useful for keeping records.",
-      "expectedOutput": ""
+      "expectedOutput": "",
+      "safety": "modifies",
+      "troubleshooting": "If you see 'Permission denied', you may not have write access to the directory. Try creating the file in your home directory."
     },
     {
       "command": "find / -name '*.conf' 2> /dev/null | head -5",
       "description": "Searches the entire system for .conf files. The 2> /dev/null hides all permission errors, keeping output clean.",
-      "expectedOutput": "/etc/adduser.conf\n/etc/debconf.conf\n/etc/gai.conf\n/etc/nsswitch.conf\n/etc/resolv.conf"
+      "expectedOutput": "/etc/adduser.conf\n/etc/debconf.conf\n/etc/gai.conf\n/etc/nsswitch.conf\n/etc/resolv.conf",
+      "safety": "safe",
+      "troubleshooting": "If you see many 'Permission denied' lines even with 2>/dev/null, make sure you typed it correctly with no spaces in '2>'."
     },
     {
       "command": "wc -l < /etc/passwd",
       "description": "Uses input redirection to count lines in the password file. The < feeds the file to wc.",
-      "expectedOutput": "32"
+      "expectedOutput": "32",
+      "safety": "safe",
+      "troubleshooting": null
     }
   ],
   "challenge": {
