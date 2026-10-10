@@ -1,12 +1,13 @@
 import Link from "next/link";
 import ProgressBar from "@/components/ProgressBar";
+import BadgeGrid from "@/components/Badge";
 
 const modules = [
   { num: 1, name: "First Steps", description: "Open the terminal, learn who you are, and explore your first commands.", lessons: [1, 2, 3, 4], icon: "🐣" },
   { num: 2, name: "Files & Folders", description: "Navigate the filesystem, create files, and organize your directories.", lessons: [5, 6, 7, 8], icon: "📁" },
-  { num: 3, name: "Text & Search", description: "Read files, search for patterns, and become a text wizard.", lessons: [9, 10, 11, 12], icon: "🔍" },
-  { num: 4, name: "Permissions & Users", description: "Understand who can do what, and manage file permissions.", lessons: [13, 14, 15, 16], icon: "🔐" },
-  { num: 5, name: "Pro Skills", description: "Pipes, redirects, scripting basics, and becoming a power user.", lessons: [17, 18, 19, 20], icon: "⚡" },
+  { num: 3, name: "Users & Permissions", description: "Understand who can do what, and manage file permissions.", lessons: [9, 10, 11, 12], icon: "🔐" },
+  { num: 4, name: "Finding & Filtering", description: "Search for text, find files, and connect commands with pipes.", lessons: [13, 14, 15, 16], icon: "🔍" },
+  { num: 5, name: "System & Beyond", description: "System info, processes, package managers, and SSH.", lessons: [17, 18, 19, 20], icon: "⚡" },
 ];
 
 export default function Home() {
@@ -37,8 +38,13 @@ export default function Home() {
       {/* Main Content */}
       <main className="mx-auto max-w-4xl px-4 py-12">
         {/* Progress Overview */}
-        <section className="mb-12">
+        <section className="mb-8">
           <ProgressBar />
+        </section>
+
+        {/* Badges */}
+        <section className="mb-12 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+          <BadgeGrid />
         </section>
 
         {/* Module Cards */}
