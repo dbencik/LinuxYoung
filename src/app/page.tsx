@@ -21,9 +21,10 @@ export default function Home() {
   const [modulesDone, setModulesDone] = useState<boolean[]>([]);
 
   useEffect(() => {
-    const c = getCompletedLessons();
-    setCompleted(c);
+    /* eslint-disable react-hooks/set-state-in-effect -- reading localStorage on mount */
+    setCompleted(getCompletedLessons());
     setModulesDone([1, 2, 3, 4, 5].map((m) => isModuleComplete(m)));
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   // Find next incomplete lesson for "Continue" button
@@ -49,11 +50,11 @@ export default function Home() {
 
         <div className="relative mx-auto max-w-4xl">
           <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-[var(--color-border-default)] bg-[var(--color-surface)] px-4 py-2">
-            <span className="font-mono text-xs text-[var(--color-glow-green)]">youngster@pi</span>
-            <span className="font-mono text-xs text-[var(--color-txt-muted)]">:</span>
-            <span className="font-mono text-xs text-[var(--color-glow-blue)]">~</span>
-            <span className="font-mono text-xs text-[var(--color-txt-muted)]">$</span>
-            <span className="font-mono text-xs text-[var(--color-txt)]">./learn-linux</span>
+            <span className="font-mono text-[13px] text-[var(--color-glow-green)]">youngster@pi</span>
+            <span className="font-mono text-[13px] text-[var(--color-txt-muted)]">:</span>
+            <span className="font-mono text-[13px] text-[var(--color-glow-blue)]">~</span>
+            <span className="font-mono text-[13px] text-[var(--color-txt-muted)]">$</span>
+            <span className="font-mono text-[13px] text-[var(--color-txt)]">./learn-linux</span>
             <span className="inline-block h-4 w-[2px] bg-[var(--color-glow-green)] cursor-blink" />
           </div>
 
@@ -104,7 +105,7 @@ export default function Home() {
         <section className="fade-up" style={{ animationDelay: "0.3s" }}>
           <div className="mb-6 flex items-center gap-3">
             <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
-            <h2 className="font-mono text-xs font-medium uppercase tracking-widest text-[var(--color-txt-muted)]">
+            <h2 className="font-mono text-[13px] font-medium uppercase tracking-widest text-[var(--color-txt-muted)]">
               Modules
             </h2>
             <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
@@ -132,17 +133,17 @@ export default function Home() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-baseline gap-2">
-                        <span className="font-mono text-[11px] font-medium uppercase tracking-wider text-[var(--color-txt-muted)]">
+                        <span className="font-mono text-[13px] font-medium uppercase tracking-wider text-[var(--color-txt-muted)]">
                           Module {mod.num}
                         </span>
                         {isDone && (
-                          <span className="font-mono text-[11px] font-bold text-[var(--color-glow-green)]">complete</span>
+                          <span className="font-mono text-[13px] font-bold text-[var(--color-glow-green)]">complete</span>
                         )}
                       </div>
                       <h3 className="text-lg font-semibold text-[var(--color-txt)]">{mod.name}</h3>
-                      <p className="text-sm text-[var(--color-txt-muted)]">{mod.description}</p>
+                      <p className="text-base text-[var(--color-txt-muted)]">{mod.description}</p>
                     </div>
-                    <span className="shrink-0 font-mono text-xs text-[var(--color-txt-muted)]">{done}/{mod.lessons.length}</span>
+                    <span className="shrink-0 font-mono text-[13px] text-[var(--color-txt-muted)]">{done}/{mod.lessons.length}</span>
                   </div>
 
                   {/* Lesson list */}
@@ -155,7 +156,7 @@ export default function Home() {
                           href={`/lesson/${lessonId}`}
                           className="flex items-center gap-3 border-b border-[var(--color-border-subtle)] px-5 py-3 transition-colors last:border-b-0 hover:bg-[var(--color-card)]"
                         >
-                          <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md font-mono text-[11px] font-bold ${
+                          <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md font-mono text-[13px] font-bold ${
                             lessonDone
                               ? "bg-[var(--color-bg-green)] text-[var(--color-glow-green)] border border-[var(--color-muted-green)]"
                               : "bg-[var(--color-surface)] text-[var(--color-txt-muted)] border border-[var(--color-border-default)]"
@@ -180,7 +181,7 @@ export default function Home() {
       </main>
 
       <footer className="border-t border-[var(--color-border-subtle)] px-4 py-8 text-center">
-        <p className="font-mono text-xs text-[var(--color-txt-muted)]">
+        <p className="font-mono text-[13px] text-[var(--color-txt-muted)]">
           youngster@pi:~$ <span className="text-[var(--color-dim-green)]">echo</span> &quot;Made for curious minds&quot;
         </p>
       </footer>

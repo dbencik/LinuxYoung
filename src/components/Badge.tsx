@@ -23,6 +23,7 @@ export default function BadgeGrid() {
   const [newBadges, setNewBadges] = useState<string[]>([]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setUnlockedBadges(getBadges());
   }, []);
 
@@ -49,7 +50,7 @@ export default function BadgeGrid() {
         </div>
         <div>
           <h2 className="text-sm font-semibold text-[var(--color-txt)]">Badges</h2>
-          <p className="font-mono text-xs text-[var(--color-txt-muted)]">
+          <p className="font-mono text-[13px] text-[var(--color-txt-muted)]">
             {unlockedBadges.length}/{ALL_BADGE_NAMES.length} unlocked
           </p>
         </div>
@@ -77,10 +78,10 @@ export default function BadgeGrid() {
               >
                 {config.icon}
               </span>
-              <span className="text-[11px] font-medium leading-tight text-[var(--color-txt-secondary)]">
+              <span className="text-[13px] font-medium leading-tight text-[var(--color-txt-secondary)]">
                 {name}
               </span>
-              <span className="mt-0.5 text-[10px] leading-tight text-[var(--color-txt-muted)]">
+              <span className="mt-0.5 text-[13px] leading-tight text-[var(--color-txt-muted)]">
                 {config.description}
               </span>
             </div>

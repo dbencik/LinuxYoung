@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { getAllLessons, getLessonById } from "@/lib/lessons";
 import LessonContent from "@/components/LessonContent";
 
@@ -41,11 +42,11 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {/* Top Navigation */}
       <nav aria-label="Site navigation" className="sticky top-0 z-10 border-b border-[var(--color-border-subtle)] bg-[var(--color-canvas)]/90 px-4 py-3 backdrop-blur-md">
         <div className="mx-auto flex max-w-3xl items-center justify-between">
-          <a href="/" className="flex items-center gap-2 px-2 py-1 font-mono text-xs font-medium text-[var(--color-txt-muted)] transition-colors hover:text-[var(--color-glow-green)]">
+          <Link href="/" className="flex items-center gap-2 px-2 py-1 font-mono text-[13px] font-medium text-[var(--color-txt-muted)] transition-colors hover:text-[var(--color-glow-green)]">
             <span className="text-[var(--color-glow-green)]">~</span>
             LinuxYoung
-          </a>
-          <span className="rounded-md border border-[var(--color-border-default)] bg-[var(--color-surface)] px-3 py-1 font-mono text-xs font-medium text-[var(--color-txt-muted)]">
+          </Link>
+          <span className="rounded-md border border-[var(--color-border-default)] bg-[var(--color-surface)] px-3 py-1 font-mono text-[13px] font-medium text-[var(--color-txt-muted)]">
             {lesson.id}/{totalLessons}
           </span>
         </div>

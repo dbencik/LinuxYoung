@@ -10,8 +10,10 @@ export default function ProgressBar() {
   const [xp, setXp] = useState(0);
 
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect -- reading localStorage on mount */
     setCompletedCount(getCompletedLessons().length);
     setXp(getXP());
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   const percentage = Math.round((completedCount / TOTAL_LESSONS) * 100);
@@ -25,14 +27,14 @@ export default function ProgressBar() {
           </div>
           <div>
             <h2 className="text-sm font-semibold text-[var(--color-txt)]">Progress</h2>
-            <p className="font-mono text-xs text-[var(--color-txt-muted)]">
+            <p className="font-mono text-[13px] text-[var(--color-txt-muted)]">
               {completedCount}/{TOTAL_LESSONS} lessons
             </p>
           </div>
         </div>
         <div className="flex items-center gap-1.5 rounded-lg border border-[var(--color-dim-amber)] bg-[var(--color-bg-amber)] px-3 py-1.5">
-          <span className="font-mono text-xs font-bold text-[var(--color-glow-amber)]">{xp}</span>
-          <span className="font-mono text-[11px] text-[var(--color-dim-amber)]">XP</span>
+          <span className="font-mono text-[13px] font-bold text-[var(--color-glow-amber)]">{xp}</span>
+          <span className="font-mono text-[13px] text-[var(--color-dim-amber)]">XP</span>
         </div>
       </div>
 
@@ -56,7 +58,7 @@ export default function ProgressBar() {
       </div>
 
       <div className="mt-2 text-right">
-        <span className="font-mono text-[11px] text-[var(--color-txt-muted)]">{percentage}%</span>
+        <span className="font-mono text-[13px] text-[var(--color-txt-muted)]">{percentage}%</span>
       </div>
     </div>
   );

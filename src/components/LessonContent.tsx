@@ -34,12 +34,15 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
   const [showCompletionAnimation, setShowCompletionAnimation] = useState(false);
 
   useEffect(() => {
+    // Reset state on lesson change — reading localStorage on mount (SSR-safe)
+    /* eslint-disable react-hooks/set-state-in-effect */
     setLessonCompleted(getCompletedLessons().includes(lesson.id));
     setChallengeCompleted(getCompletedChallenges().includes(lesson.id));
     setChallengeInput("");
     setChallengeResult(null);
     setShowHint(false);
     setShowCompletionAnimation(false);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, [lesson.id]);
 
   const handleKeyDown = useCallback(
@@ -91,14 +94,14 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
       {/* Header */}
       <div className="fade-up mb-10">
         <div className="mb-4 flex flex-wrap items-center gap-2">
-          <span className="rounded-md border border-[var(--color-border-default)] bg-[var(--color-elevated)] px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-wider text-[var(--color-txt-muted)]">
+          <span className="rounded-md border border-[var(--color-border-default)] bg-[var(--color-elevated)] px-2.5 py-1 font-mono text-[13px] font-medium uppercase tracking-wider text-[var(--color-txt-muted)]">
             Module {lesson.module}
           </span>
-          <span className={`rounded-md border px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-wider ${difficultyColor[lesson.difficulty] || ""}`}>
+          <span className={`rounded-md border px-2.5 py-1 font-mono text-[13px] font-bold uppercase tracking-wider ${difficultyColor[lesson.difficulty] || ""}`}>
             {lesson.difficulty}
           </span>
           {lessonCompleted && (
-            <span className="rounded-md border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-wider text-[var(--color-glow-green)]">
+            <span className="rounded-md border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] px-2.5 py-1 font-mono text-[13px] font-bold uppercase tracking-wider text-[var(--color-glow-green)]">
               Done
             </span>
           )}
@@ -106,19 +109,19 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
         <h1 className="mb-3 text-3xl font-bold tracking-tight text-[var(--color-txt)] sm:text-4xl">
           {lesson.title}
         </h1>
-        <p className="text-base text-[var(--color-txt-secondary)]">{lesson.objective}</p>
+        <p className="max-w-[65ch] text-lg leading-relaxed text-[var(--color-txt-secondary)]">{lesson.objective}</p>
       </div>
 
       {/* Explanation */}
       <section className="fade-up mb-10" style={{ animationDelay: "0.1s" }}>
         <div className="mb-3 flex items-center gap-2">
           <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
-          <h2 className="font-mono text-[11px] font-medium uppercase tracking-widest text-[var(--color-txt-muted)]">
+          <h2 className="font-mono text-[13px] font-medium uppercase tracking-widest text-[var(--color-txt-muted)]">
             Explanation
           </h2>
           <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
         </div>
-        <div className="space-y-4 rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface)] p-6 text-sm leading-relaxed text-[var(--color-txt-secondary)]">
+        <div className="max-w-[65ch] space-y-4 rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface)] p-6 text-lg leading-relaxed text-[var(--color-txt)]">
           {lesson.explanation.split(/(?<=\.)\s+(?=[A-Z])/).reduce<string[]>((paras, sentence) => {
             const last = paras[paras.length - 1];
             if (last && last.split(/\s+/).length < 40) {
@@ -137,7 +140,7 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
       <section className="fade-up mb-10" style={{ animationDelay: "0.15s" }}>
         <div className="mb-3 flex items-center gap-2">
           <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
-          <h2 className="font-mono text-[11px] font-medium uppercase tracking-widest text-[var(--color-txt-muted)]">
+          <h2 className="font-mono text-[13px] font-medium uppercase tracking-widest text-[var(--color-txt-muted)]">
             Commands
           </h2>
           <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
@@ -160,13 +163,13 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
       <section className="fade-up mb-10" style={{ animationDelay: "0.2s" }}>
         <div className="mb-3 flex items-center gap-2">
           <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
-          <h2 className="font-mono text-[11px] font-medium uppercase tracking-widest text-[var(--color-txt-muted)]">
+          <h2 className="font-mono text-[13px] font-medium uppercase tracking-widest text-[var(--color-txt-muted)]">
             Challenge
           </h2>
           <div className="h-px flex-1 bg-[var(--color-border-subtle)]" />
         </div>
         <div className="rounded-2xl border border-[var(--color-glow-blue)] bg-[var(--color-bg-blue)] p-6">
-          <p className="mb-4 text-sm font-medium text-[var(--color-txt)]">{lesson.challenge.question}</p>
+          <p className="mb-4 max-w-[65ch] text-lg font-medium leading-relaxed text-[var(--color-txt)]">{lesson.challenge.question}</p>
 
           <div className="mb-3 flex gap-2">
             <input
@@ -185,24 +188,24 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
             <button
               onClick={handleChallengeSubmit}
               data-testid="challenge-submit"
-              className="rounded-lg border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] px-5 py-2.5 font-mono text-xs font-bold text-[var(--color-glow-green)] transition-all hover:bg-[var(--color-muted-green)] hover:text-[var(--color-canvas)]"
+              className="rounded-lg border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] px-5 py-2.5 font-mono text-[13px] font-bold text-[var(--color-glow-green)] transition-all hover:bg-[var(--color-muted-green)] hover:text-[var(--color-canvas)]"
             >
               run
             </button>
           </div>
 
           {challengeResult === "correct" && !challengeCompleted && (
-            <div data-testid="challenge-correct" className="mb-3 rounded-lg border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] p-3 font-mono text-xs text-[var(--color-glow-green)]" role="alert">
+            <div data-testid="challenge-correct" className="mb-3 rounded-lg border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] p-3 font-mono text-[13px] text-[var(--color-glow-green)]" role="alert">
               ✓ Correct! +25 XP
             </div>
           )}
           {challengeResult === "correct" && challengeCompleted && (
-            <div className="mb-3 rounded-lg border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] p-3 font-mono text-xs text-[var(--color-glow-green)]" role="alert">
+            <div className="mb-3 rounded-lg border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] p-3 font-mono text-[13px] text-[var(--color-glow-green)]" role="alert">
               ✓ Correct!
             </div>
           )}
           {challengeResult === "wrong" && !challengeCompleted && (
-            <div data-testid="challenge-wrong" className="mb-3 rounded-lg border border-[var(--color-dim-red)] bg-[var(--color-bg-red)] p-3 font-mono text-xs text-[var(--color-glow-red)]" role="alert">
+            <div data-testid="challenge-wrong" className="mb-3 rounded-lg border border-[var(--color-dim-red)] bg-[var(--color-bg-red)] p-3 font-mono text-[13px] text-[var(--color-glow-red)]" role="alert">
               ✗ Not quite — try again or check the hint.
             </div>
           )}
@@ -210,16 +213,16 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowHint(!showHint)}
-              className="font-mono text-xs text-[var(--color-txt-muted)] transition-colors hover:text-[var(--color-txt-secondary)]"
+              className="font-mono text-[13px] text-[var(--color-txt-muted)] transition-colors hover:text-[var(--color-txt-secondary)]"
             >
               {showHint ? "− hide hint" : "+ show hint"}
             </button>
             {challengeCompleted && (
-              <span className="font-mono text-xs font-bold text-[var(--color-glow-green)]">solved</span>
+              <span className="font-mono text-[13px] font-bold text-[var(--color-glow-green)]">solved</span>
             )}
           </div>
           {showHint && (
-            <p className="mt-3 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-surface)] p-3 font-mono text-xs text-[var(--color-txt-muted)]">
+            <p className="mt-3 max-w-[65ch] rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-surface)] p-3 font-mono text-base text-[var(--color-txt-muted)]">
               {lesson.challenge.hint}
             </p>
           )}
@@ -229,10 +232,10 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
       {/* Fun Fact */}
       <section className="fade-up mb-10" style={{ animationDelay: "0.25s" }}>
         <div className="rounded-2xl border border-[var(--color-dim-amber)] bg-[var(--color-bg-amber)] p-5">
-          <p className="mb-1 font-mono text-[11px] font-bold uppercase tracking-wider text-[var(--color-dim-amber)]">
+          <p className="mb-1 font-mono text-[13px] font-bold uppercase tracking-wider text-[var(--color-dim-amber)]">
             Fun fact
           </p>
-          <p className="text-sm text-[var(--color-glow-amber)]">{lesson.funFact}</p>
+          <p className="max-w-[65ch] text-base text-[var(--color-glow-amber)]">{lesson.funFact}</p>
         </div>
       </section>
 
@@ -264,7 +267,7 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
           <Link
             href={`/lesson/${prevId}`}
             data-testid="prev-button"
-            className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border-default)] bg-[var(--color-surface)] px-4 py-2.5 font-mono text-xs font-medium text-[var(--color-txt-muted)] transition-all hover:border-[var(--color-border-strong)] hover:text-[var(--color-txt)]"
+            className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border-default)] bg-[var(--color-surface)] px-4 py-2.5 font-mono text-[13px] font-medium text-[var(--color-txt-muted)] transition-all hover:border-[var(--color-border-strong)] hover:text-[var(--color-txt)]"
           >
             <span>←</span> prev
           </Link>
@@ -272,13 +275,13 @@ export default function LessonContent({ lesson, prevId, nextId }: LessonContentP
           <div />
         )}
 
-        <span className="font-mono text-[11px] text-[var(--color-txt-muted)]">← → to navigate</span>
+        <span className="font-mono text-[13px] text-[var(--color-txt-muted)]">← → to navigate</span>
 
         {nextId ? (
           <Link
             href={`/lesson/${nextId}`}
             data-testid="next-button"
-            className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] px-4 py-2.5 font-mono text-xs font-medium text-[var(--color-glow-green)] transition-all hover:bg-[var(--color-muted-green)] hover:text-[var(--color-canvas)]"
+            className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-muted-green)] bg-[var(--color-bg-green)] px-4 py-2.5 font-mono text-[13px] font-medium text-[var(--color-glow-green)] transition-all hover:bg-[var(--color-muted-green)] hover:text-[var(--color-canvas)]"
           >
             next <span>→</span>
           </Link>
